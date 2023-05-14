@@ -1,0 +1,6 @@
+#!/bin/sh
+# Get repo's working folder, repo's .wtc folder, and the .wtc folder in user home.
+root="$(git rev-parse --show-toplevel)"
+mkdir -p $root/.wtc
+"$root/bash/wtc_pre_commit.sh" $root $HOME "$root/bash"
+git add $root/.wtc

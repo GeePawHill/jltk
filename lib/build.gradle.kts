@@ -17,16 +17,11 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api("org.apache.commons:commons-math3:3.6.1")
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation("com.google.guava:guava:31.1-jre")
+    implementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
+    implementation("org.yaml:snakeyaml:2.0")
+    implementation("org.slf4j:slf4j-nop:2.0.7")
 }
-
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
@@ -35,6 +30,5 @@ java {
 }
 
 tasks.named<Test>("test") {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
