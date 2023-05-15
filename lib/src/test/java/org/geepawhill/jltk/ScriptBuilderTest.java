@@ -1,7 +1,6 @@
 package org.geepawhill.jltk;
 
 import org.junit.jupiter.api.*;
-import org.opentest4j.*;
 
 import java.util.*;
 
@@ -10,6 +9,11 @@ public class ScriptBuilderTest {
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         scanner.nextLine();
+    }
+
+    public static void writeTwoStrings() {
+        System.out.println("First line.");
+        System.out.println("Second line.");
     }
 
     public static void helloWorld() {
@@ -27,13 +31,25 @@ public class ScriptBuilderTest {
     @Test
     void successfulExpectOnly() {
         new ScriptBuilder()
-                .expect("Hello World!")
-                .validate(ScriptBuilderTest::helloWorld);
+                .expect("First line.")
+                .expect("Second line.")
+                .validate(ScriptBuilderTest::writeTwoStrings);
+    }
+
+    @Test
+    void underflowExpectOnly() {
+        Assertions.assertThrows(ScriptUnderflowException.class,
+                () -> {
+                    new ScriptBuilder()
+                            .expect("First line.")
+                            .validate(ScriptBuilderTest::writeTwoStrings);
+                }
+        );
     }
 
     @Test
     void underflowSayOnly() {
-        Assertions.assertThrows(AssertionFailedError.class,
+        Assertions.assertThrows(ScriptUnderflowException.class,
                 () -> {
                     new ScriptBuilder()
                             .say("first")
@@ -44,13 +60,21 @@ public class ScriptBuilderTest {
 
     @Test
     void wrongExpectValue() {
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(ScriptException.class,
                 () -> {
                     new ScriptBuilder()
                             .expect("Nope.")
                             .validate(ScriptBuilderTest::helloWorld);
                 }
         );
+    }
+
+    @Disabled("Double-check JUnit output.")
+    @Test
+    void wrongExpectValueUnsafe() {
+        new ScriptBuilder()
+                .expect("Nope.")
+                .validate(ScriptBuilderTest::helloWorld);
     }
 
 }

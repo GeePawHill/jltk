@@ -1,5 +1,7 @@
 package org.geepawhill.jltk;
 
+import java.io.*;
+
 public class ExpectAction implements ScriptAction {
 
     final String whatToExpect;
@@ -24,7 +26,7 @@ public class ExpectAction implements ScriptAction {
     public void write(int value) {
         if (value == '\n') {
             if (!whatToExpect.equals(accumulator.trim())) {
-                throw new RuntimeException("Wrong expect.");
+                throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator.trim() + "]");
             }
             sawNewLine = true;
         } else {
@@ -38,7 +40,7 @@ public class ExpectAction implements ScriptAction {
     }
 
     @Override
-    public void dump() {
-        System.err.println("Said: " + whatToExpect);
+    public void dump(PrintStream destination) {
+        destination.println("Heard: [" + whatToExpect + "]");
     }
 }

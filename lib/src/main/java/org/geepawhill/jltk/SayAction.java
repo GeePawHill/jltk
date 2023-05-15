@@ -1,5 +1,7 @@
 package org.geepawhill.jltk;
 
+import java.io.*;
+
 public class SayAction implements ScriptAction {
 
     final String whatToSay;
@@ -36,7 +38,7 @@ public class SayAction implements ScriptAction {
     }
 
     @Override
-    public void dump() {
-        System.err.println("Said: " + whatToSay);
+    public void dump(PrintStream destination) {
+        destination.println("Said:  [" + whatToSay + "]");
     }
 }

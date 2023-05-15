@@ -1,5 +1,7 @@
 package org.geepawhill.jltk;
 
+import java.io.*;
+
 public interface ScriptAction {
     int read();
 
@@ -7,5 +9,5 @@ public interface ScriptAction {
 
     boolean isFinished();
 
-    void dump();
+    void dump(PrintStream destination);
 }

@@ -1,7 +1,5 @@
 package org.geepawhill.jltk;
 
-import org.junit.jupiter.api.*;
-
 import java.io.*;
 import java.util.*;
 
@@ -29,14 +27,16 @@ public class ScriptBuilder {
             System.setOut(new PrintStream(new TestableOutputStream(script)));
             function.run();
         } catch (NoSuchElementException possibleScannerException) {
-            if ("No line found".equals(possibleScannerException.getMessage())) {
-                Assertions.fail("Script underflow detected. Function wanted more input.");
-            } else throw possibleScannerException;
-        } catch (Throwable throwable) {
-            throw throwable;
+            possibleScannerUnderflow(possibleScannerException);
         } finally {
             System.setIn(originalIn);
             System.setOut(originalOut);
         }
+    }
+
+    private static void possibleScannerUnderflow(NoSuchElementException possibleScannerException) {
+        if ("No line found".equals(possibleScannerException.getMessage())) {
+            throw new ScriptUnderflowException("Script underflow detected. Function wanted more input.");
+        } else throw possibleScannerException;
     }
 }
