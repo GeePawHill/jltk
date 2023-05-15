@@ -36,7 +36,7 @@ public class ScriptBuilder {
 
     private static void possibleScannerUnderflow(NoSuchElementException possibleScannerException) {
         if ("No line found".equals(possibleScannerException.getMessage())) {
-            throw new ScriptUnderflowException("Script underflow detected. Function wanted more input.");
+            throw new ScriptUnderflowException("Script underflow detected. Function wanted more input than script.");
         } else throw possibleScannerException;
     }
 }

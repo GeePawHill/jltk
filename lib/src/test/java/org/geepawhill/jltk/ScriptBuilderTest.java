@@ -77,4 +77,20 @@ public class ScriptBuilderTest {
                 .validate(ScriptBuilderTest::helloWorld);
     }
 
+    @Disabled("Double-check JUnit output.")
+    @Test
+    void underflowOnSayUnsafe() {
+        new ScriptBuilder()
+                .say("Nope.")
+                .validate(ScriptBuilderTest::readTwoStrings);
+    }
+
+    @Disabled("Double-check JUnit output.")
+    @Test
+    void underflowOnExpectUnsafe() {
+        new ScriptBuilder()
+                .expect("First line.")
+                .validate(ScriptBuilderTest::writeTwoStrings);
+    }
+
 }
