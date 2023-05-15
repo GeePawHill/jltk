@@ -1,37 +1,35 @@
 package org.geepawhill.jltk;
 
-import java.io.*;
 import java.util.*;
 
 public class Script {
-    ArrayList<ScriptAction> actions = new ArrayList<>();
+    ArrayList<SayAction> says = new ArrayList<>();
+    int currentSay = 0;
 
-    int current = 0;
+    ArrayList<ExpectAction> expects = new ArrayList<>();
+    int currentWrite = 0;
 
-    void add(ScriptAction action) {
-        actions.add(action);
+    void add(ExpectAction action) {
+        expects.add(action);
+    }
+
+    void add(SayAction action) {
+        says.add(action);
     }
 
     int read() {
-        if (current == actions.size()) return -1;
-        ScriptAction action = actions.get(current);
+        if (currentSay == says.size()) return -1;
+        ScriptAction action = says.get(currentSay);
         int result = action.read();
-        if (action.isFinished()) current += 1;
+        if (action.isFinished()) currentSay += 1;
         return result;
     }
 
     void write(int value) {
-        if (current == actions.size())
+        if (currentWrite == expects.size())
             throw new ScriptUnderflowException("Function wrote more than was expected in script.");
-        ScriptAction action = actions.get(current);
+        ScriptAction action = expects.get(currentWrite);
         action.write(value);
-        if (action.isFinished()) current += 1;
-    }
-
-    public void dump(PrintStream destination, ScriptException exception) {
-        for (int a = 0; a < current; a++) {
-            ScriptAction action = actions.get(a);
-            action.dump(destination);
-        }
+        if (action.isFinished()) currentWrite += 1;
     }
 }

@@ -16,6 +16,15 @@ public class ScriptBuilderTest {
         System.out.println("Second line.");
     }
 
+    public static void writeReadWriteReadWrite() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("First line.");
+        scanner.nextLine();
+        System.out.println("Second line.");
+        scanner.nextLine();
+        System.out.println("Done");
+    }
+
     public static void helloWorld() {
         System.out.println("Hello World!");
     }
@@ -34,6 +43,17 @@ public class ScriptBuilderTest {
                 .expect("First line.")
                 .expect("Second line.")
                 .validate(ScriptBuilderTest::writeTwoStrings);
+    }
+
+    @Test
+    void successfulMixed() {
+        new ScriptBuilder()
+                .expect("First line.")
+                .say("response")
+                .expect("Second line.")
+                .say("second")
+                .expect("Done")
+                .validate(ScriptBuilderTest::writeReadWriteReadWrite);
     }
 
     @Test
