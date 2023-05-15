@@ -46,7 +46,7 @@ public class ScriptBuilderTest {
     }
 
     @Test
-    void successfulMixed() {
+    void mixedWithMismatch() {
         new ScriptBuilder()
                 .expect("First line.")
                 .say("response")
