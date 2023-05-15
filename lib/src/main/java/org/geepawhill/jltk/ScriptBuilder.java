@@ -17,6 +17,12 @@ public class ScriptBuilder {
         return this;
     }
 
+    ScriptBuilder expect(String line) {
+        StackTraceElement caller = new Throwable().getStackTrace()[1];
+        script.add(new ExpectAction(line, caller.getFileName(), caller.getLineNumber()));
+        return this;
+    }
+
     void validate(Runnable function) {
         try {
             System.setIn(new TestableInputStream(script));
