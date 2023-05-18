@@ -24,7 +24,8 @@ public class SayAction implements ScriptAction {
 
     private int nextChar() {
         if (current < whatToSay.length()) return whatToSay.charAt(current);
-        return '\n';
+        if (current == whatToSay.length()) return '\n';
+        return -1;
     }
 
     @Override
