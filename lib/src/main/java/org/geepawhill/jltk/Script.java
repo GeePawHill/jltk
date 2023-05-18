@@ -11,7 +11,7 @@ public class Script {
     }
 
     int read() {
-        if (current == actions.size()) throw new ScriptUnderflowException("Not enough input.");
+        throwOnUnderflow();
         ScriptAction action = actions.get(current);
         int result = action.read();
         if (action.isFinished()) current += 1;
@@ -19,10 +19,14 @@ public class Script {
     }
 
     void write(int value) {
-        if (current == actions.size())
-            throw new ScriptUnderflowException("Function wrote more than was expected in script.");
+        throwOnUnderflow();
         ScriptAction action = actions.get(current);
         action.write(value);
         if (action.isFinished()) current += 1;
     }
+
+    private void throwOnUnderflow() {
+        if (current == actions.size()) throw new ScriptUnderflowException("Script is too short.");
+    }
+
 }
