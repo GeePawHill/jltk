@@ -1,4 +1,4 @@
-package org.geepawhill.jltk;
+package org.geepawhill.jltk.script;
 
 public class ScriptException extends RuntimeException {
 

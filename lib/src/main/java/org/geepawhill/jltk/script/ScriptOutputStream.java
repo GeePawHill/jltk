@@ -1,12 +1,12 @@
-package org.geepawhill.jltk;
+package org.geepawhill.jltk.script;
 
 import java.io.*;
 
-public class TestableOutputStream extends OutputStream {
+public class ScriptOutputStream extends OutputStream {
 
     private final Script script;
 
-    TestableOutputStream(Script script) {
+    ScriptOutputStream(Script script) {
         this.script = script;
     }
 

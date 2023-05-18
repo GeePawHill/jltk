@@ -1,4 +1,4 @@
-package org.geepawhill.jltk;
+package org.geepawhill.jltk.script;
 
 import java.io.*;
 
@@ -8,7 +8,7 @@ public class ExpectAction implements ScriptAction {
     final String filename;
     final int lineNumber;
     String accumulator = "";
-    boolean sawNewLine = false;
+    boolean sawAccumulator = false;
 
 
     ExpectAction(String whatToExpect, String filename, int lineNumber) {
@@ -28,7 +28,7 @@ public class ExpectAction implements ScriptAction {
             if (!whatToExpect.equals(accumulator.trim())) {
                 throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator.trim() + "]");
             }
-            sawNewLine = true;
+            sawAccumulator = true;
         } else {
             accumulator = accumulator + (char) value;
         }
@@ -36,7 +36,7 @@ public class ExpectAction implements ScriptAction {
 
     @Override
     public boolean isFinished() {
-        return sawNewLine;
+        return sawAccumulator;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.geepawhill.jltk;
+package org.geepawhill.jltk.script;
 
 import org.junit.jupiter.api.*;
 

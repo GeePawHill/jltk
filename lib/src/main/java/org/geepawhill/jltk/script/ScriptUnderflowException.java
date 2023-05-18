@@ -1,4 +1,4 @@
-package org.geepawhill.jltk;
+package org.geepawhill.jltk.script;
 
 public class ScriptUnderflowException extends RuntimeException {
     ScriptUnderflowException(String message) {

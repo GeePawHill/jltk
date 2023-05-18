@@ -7,8 +7,8 @@
  */
 
 plugins {
-    // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
 }
 
 repositories {
@@ -31,4 +31,16 @@ java {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.geepawhill"
+            artifactId = "jltk"
+            version = "1.0"
+
+            from(components["java"])
+        }
+    }
 }
