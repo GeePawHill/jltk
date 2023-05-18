@@ -3,33 +3,26 @@ package org.geepawhill.jltk;
 import java.util.*;
 
 public class Script {
-    ArrayList<SayAction> says = new ArrayList<>();
-    int currentSay = 0;
+    ArrayList<ScriptAction> actions = new ArrayList<>();
+    int current = 0;
 
-    ArrayList<ExpectAction> expects = new ArrayList<>();
-    int currentWrite = 0;
-
-    void add(ExpectAction action) {
-        expects.add(action);
-    }
-
-    void add(SayAction action) {
-        says.add(action);
+    void add(ScriptAction action) {
+        actions.add(action);
     }
 
     int read() {
-        if (currentSay == says.size()) return -1;
-        ScriptAction action = says.get(currentSay);
+        if (current == actions.size()) throw new ScriptUnderflowException("Not enough input.");
+        ScriptAction action = actions.get(current);
         int result = action.read();
-        if (action.isFinished()) currentSay += 1;
+        if (action.isFinished()) current += 1;
         return result;
     }
 
     void write(int value) {
-        if (currentWrite == expects.size())
+        if (current == actions.size())
             throw new ScriptUnderflowException("Function wrote more than was expected in script.");
-        ScriptAction action = expects.get(currentWrite);
+        ScriptAction action = actions.get(current);
         action.write(value);
-        if (action.isFinished()) currentWrite += 1;
+        if (action.isFinished()) current += 1;
     }
 }

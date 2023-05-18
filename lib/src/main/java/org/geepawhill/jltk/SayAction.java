@@ -35,7 +35,7 @@ public class SayAction implements ScriptAction {
 
     @Override
     public boolean isFinished() {
-        return current > whatToSay.length();
+        return current > whatToSay.length() + 1;
     }
 
     @Override
