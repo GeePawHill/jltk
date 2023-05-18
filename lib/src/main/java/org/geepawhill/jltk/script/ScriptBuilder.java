@@ -15,9 +15,9 @@ public class ScriptBuilder {
         return this;
     }
 
-    public ScriptBuilder expect(String line) {
+    public ScriptBuilder expectln(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ExpectAction(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ExpectLineAction(line, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 

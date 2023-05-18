@@ -40,19 +40,19 @@ public class ScriptBuilderTest {
     @Test
     void successfulExpectOnly() {
         new ScriptBuilder()
-                .expect("First line.")
-                .expect("Second line.")
+                .expectln("First line.")
+                .expectln("Second line.")
                 .validate(ScriptBuilderTest::writeTwoStrings);
     }
 
     @Test
     void mixedWithMismatch() {
         new ScriptBuilder()
-                .expect("First line.")
+                .expectln("First line.")
                 .say("response")
-                .expect("Second line.")
+                .expectln("Second line.")
                 .say("second")
-                .expect("Done")
+                .expectln("Done")
                 .validate(ScriptBuilderTest::writeReadWriteReadWrite);
     }
 
@@ -61,7 +61,7 @@ public class ScriptBuilderTest {
         Assertions.assertThrows(ScriptUnderflowException.class,
                 () -> {
                     new ScriptBuilder()
-                            .expect("First line.")
+                            .expectln("First line.")
                             .validate(ScriptBuilderTest::writeTwoStrings);
                 }
         );
@@ -83,7 +83,7 @@ public class ScriptBuilderTest {
         Assertions.assertThrows(ScriptException.class,
                 () -> {
                     new ScriptBuilder()
-                            .expect("Nope.")
+                            .expectln("Nope.")
                             .validate(ScriptBuilderTest::helloWorld);
                 }
         );
@@ -93,7 +93,7 @@ public class ScriptBuilderTest {
     @Test
     void unsafeWrongExpectValue() {
         new ScriptBuilder()
-                .expect("Nope.")
+                .expectln("Nope.")
                 .validate(ScriptBuilderTest::helloWorld);
     }
 
@@ -109,7 +109,7 @@ public class ScriptBuilderTest {
     @Test
     void unsafeUnderflowOnExpect() {
         new ScriptBuilder()
-                .expect("First line.")
+                .expectln("First line.")
                 .validate(ScriptBuilderTest::writeTwoStrings);
     }
 

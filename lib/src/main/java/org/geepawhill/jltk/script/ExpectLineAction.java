@@ -2,7 +2,7 @@ package org.geepawhill.jltk.script;
 
 import java.io.*;
 
-public class ExpectAction implements ScriptAction {
+public class ExpectLineAction implements ScriptAction {
 
     final String whatToExpect;
     final String filename;
@@ -10,8 +10,7 @@ public class ExpectAction implements ScriptAction {
     String accumulator = "";
     boolean sawAccumulator = false;
 
-
-    ExpectAction(String whatToExpect, String filename, int lineNumber) {
+    ExpectLineAction(String whatToExpect, String filename, int lineNumber) {
         this.whatToExpect = whatToExpect;
         this.filename = filename;
         this.lineNumber = lineNumber;
@@ -24,9 +23,10 @@ public class ExpectAction implements ScriptAction {
 
     @Override
     public void write(int value) {
+        if (value == '\r') return;
         if (value == '\n') {
-            if (!whatToExpect.equals(accumulator.trim())) {
-                throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator.trim() + "]");
+            if (!whatToExpect.equals(accumulator)) {
+                throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator + "]");
             }
             sawAccumulator = true;
         } else {
