@@ -9,6 +9,11 @@ public class ScriptBuilder {
     private InputStream originalIn = System.in;
     private PrintStream originalOut = System.out;
 
+    public ScriptBuilder() {
+        System.setIn(new ScriptInputStream(script));
+        System.setOut(new PrintStream(new ScriptOutputStream(script)));
+    }
+
     public ScriptBuilder sayln(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
         script.add(new SayLineAction(line, caller.getFileName(), caller.getLineNumber()));
@@ -29,8 +34,6 @@ public class ScriptBuilder {
 
     public void validate(Runnable function) {
         try {
-            System.setIn(new ScriptInputStream(script));
-            System.setOut(new PrintStream(new ScriptOutputStream(script)));
             function.run();
         } catch (NoSuchElementException possibleScannerException) {
             possibleScannerUnderflow(possibleScannerException);

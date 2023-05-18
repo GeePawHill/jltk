@@ -80,6 +80,22 @@ public class ScriptBuilderTest {
                 .expectln("Done")
                 .validate(ScriptBuilderTest::writeReadWriteReadWrite);
     }
+    
+    public static void simpleQueryEof() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("guess");
+        scanner.nextLine();
+        System.out.println("You guessed it!");
+    }
+
+    @Test
+    void weirdLineEnding() {
+        new ScriptBuilder()
+                .expect("guess")
+                .sayln("34")
+                .expectln("You guessed it!")
+                .validate(ScriptBuilderTest::simpleQueryEof);
+    }
 
     @Test
     void underflowExpectOnly() {
