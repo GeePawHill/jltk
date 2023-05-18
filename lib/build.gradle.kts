@@ -34,13 +34,22 @@ tasks.named<Test>("test") {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "org.geepawhill"
-            artifactId = "jltk"
-            version = "1.0"
+    repositories {
+        maven {
+            url = uri(property("GPH_REPO")!!)
+            credentials {
+                username = property("GPH_USER").toString()
+                password = property("GPH_PWD").toString()
+            }
+        }
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "org.geepawhill"
+                artifactId = "jltk"
+                version = "1.0"
 
-            from(components["java"])
+                from(components["java"])
+            }
         }
     }
 }

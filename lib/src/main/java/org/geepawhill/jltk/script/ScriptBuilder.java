@@ -9,9 +9,15 @@ public class ScriptBuilder {
     private InputStream originalIn = System.in;
     private PrintStream originalOut = System.out;
 
-    public ScriptBuilder say(String line) {
+    public ScriptBuilder sayln(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new SayAction(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new SayLineAction(line, caller.getFileName(), caller.getLineNumber()));
+        return this;
+    }
+
+    public ScriptBuilder expect(String line) {
+        StackTraceElement caller = new Throwable().getStackTrace()[1];
+        script.add(new ExpectAction(line, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 

@@ -2,14 +2,14 @@ package org.geepawhill.jltk.script;
 
 import java.io.*;
 
-public class SayAction implements ScriptAction {
+public class SayLineAction implements ScriptAction {
 
     final String whatToSay;
     final String filename;
     final int lineNumber;
     int current = 0;
 
-    SayAction(String whatToSay, String filename, int lineNumber) {
+    SayLineAction(String whatToSay, String filename, int lineNumber) {
         this.whatToSay = whatToSay;
         this.filename = filename;
         this.lineNumber = lineNumber;
