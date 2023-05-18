@@ -91,7 +91,7 @@ public class ScriptBuilderTest {
 
     @Disabled("Double-check JUnit output.")
     @Test
-    void wrongExpectValueUnsafe() {
+    void unsafeWrongExpectValue() {
         new ScriptBuilder()
                 .expect("Nope.")
                 .validate(ScriptBuilderTest::helloWorld);
@@ -99,7 +99,7 @@ public class ScriptBuilderTest {
 
     @Disabled("Double-check JUnit output.")
     @Test
-    void underflowOnSayUnsafe() {
+    void unsafeUnderflowOnSay() {
         new ScriptBuilder()
                 .say("Nope.")
                 .validate(ScriptBuilderTest::readTwoStrings);
@@ -107,7 +107,7 @@ public class ScriptBuilderTest {
 
     @Disabled("Double-check JUnit output.")
     @Test
-    void underflowOnExpectUnsafe() {
+    void unsafeUnderflowOnExpect() {
         new ScriptBuilder()
                 .expect("First line.")
                 .validate(ScriptBuilderTest::writeTwoStrings);
