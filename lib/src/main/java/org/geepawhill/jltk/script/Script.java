@@ -26,7 +26,6 @@ public class Script {
     }
 
     private void throwOnUnderflow() {
-        if (current == actions.size()) throw new ScriptUnderflowException("Script is too short.");
+        if (current == actions.size()) throw new ScriptUnderflow("Script is too short.");
     }
-
 }

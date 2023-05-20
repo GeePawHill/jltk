@@ -11,7 +11,7 @@ public class ScriptBuilderTest {
         scanner.nextLine();
     }
 
-    public static void writeTwoStrings() {
+    public static void writeTwoLines() {
         System.out.println("First line.");
         System.out.println("Second line.");
     }
@@ -51,7 +51,7 @@ public class ScriptBuilderTest {
         new ScriptBuilder()
                 .expectln("First line.")
                 .expectln("Second line.")
-                .validate(ScriptBuilderTest::writeTwoStrings);
+                .validate(ScriptBuilderTest::writeTwoLines);
     }
 
     @Test
@@ -69,9 +69,8 @@ public class ScriptBuilderTest {
                 .validate(ScriptBuilderTest::twoPrompts);
     }
 
-
     @Test
-    void mixedWithMismatch() {
+    void mixedExpectsAndSays() {
         new ScriptBuilder()
                 .expectln("First line.")
                 .sayln("response")
@@ -80,7 +79,14 @@ public class ScriptBuilderTest {
                 .expectln("Done")
                 .validate(ScriptBuilderTest::writeReadWriteReadWrite);
     }
-    
+
+    @Test
+    void ignoreLines() {
+        new ScriptBuilder()
+                .ignoreln(2)
+                .validate(ScriptBuilderTest::writeTwoLines);
+    }
+
     public static void simpleQueryEof() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("guess");
@@ -99,18 +105,18 @@ public class ScriptBuilderTest {
 
     @Test
     void underflowExpectOnly() {
-        Assertions.assertThrows(ScriptUnderflowException.class,
+        Assertions.assertThrows(ScriptUnderflow.class,
                 () -> {
                     new ScriptBuilder()
                             .expectln("First line.")
-                            .validate(ScriptBuilderTest::writeTwoStrings);
+                            .validate(ScriptBuilderTest::writeTwoLines);
                 }
         );
     }
 
     @Test
     void underflowSayOnly() {
-        Assertions.assertThrows(ScriptUnderflowException.class,
+        Assertions.assertThrows(ScriptUnderflow.class,
                 () -> {
                     new ScriptBuilder()
                             .sayln("first")
@@ -151,7 +157,7 @@ public class ScriptBuilderTest {
     void unsafeUnderflowOnExpect() {
         new ScriptBuilder()
                 .expectln("First line.")
-                .validate(ScriptBuilderTest::writeTwoStrings);
+                .validate(ScriptBuilderTest::writeTwoLines);
     }
 
 }

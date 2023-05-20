@@ -1,7 +1,5 @@
 package org.geepawhill.jltk.script;
 
-import java.io.*;
-
 public class ExpectAction implements ScriptAction {
 
     final String whatToExpect;
@@ -18,14 +16,14 @@ public class ExpectAction implements ScriptAction {
 
     @Override
     public int read() {
-        throw new RuntimeException("Function read when script was expecting it to write.");
+        throw new ScriptException(filename, lineNumber, "Target read when Script was expecting a write.");
     }
 
     @Override
     public void write(int value) {
         accumulator = accumulator + (char) value;
         if (!whatToExpect.startsWith(accumulator)) {
-            throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator + "]");
+            throw new ScriptException(filename, lineNumber, "Script expected [" + whatToExpect + "] but Target wrote [" + accumulator + "]");
         }
         if (whatToExpect.equals(accumulator)) sawAccumulator = true;
     }
@@ -33,10 +31,5 @@ public class ExpectAction implements ScriptAction {
     @Override
     public boolean isFinished() {
         return sawAccumulator;
-    }
-
-    @Override
-    public void dump(PrintStream destination) {
-        destination.println("Heard: [" + whatToExpect + "]");
     }
 }

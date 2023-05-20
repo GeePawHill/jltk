@@ -1,7 +1,5 @@
 package org.geepawhill.jltk.script;
 
-import java.io.*;
-
 public class SayLineAction implements ScriptAction {
 
     final String whatToSay;
@@ -30,16 +28,11 @@ public class SayLineAction implements ScriptAction {
 
     @Override
     public void write(int value) {
-        throw new RuntimeException("Wrote when you thought we were reading.");
+        throw new ScriptUnexpectedRead(filename, lineNumber);
     }
 
     @Override
     public boolean isFinished() {
         return current > whatToSay.length() + 1;
-    }
-
-    @Override
-    public void dump(PrintStream destination) {
-        destination.println("Said:  [" + whatToSay + "]");
     }
 }

@@ -26,6 +26,12 @@ public class ScriptBuilder {
         return this;
     }
 
+    public ScriptBuilder ignoreln(int count) {
+        StackTraceElement caller = new Throwable().getStackTrace()[1];
+        script.add(new IgnoreLineAction(count, caller.getFileName(), caller.getLineNumber()));
+        return this;
+    }
+
     public ScriptBuilder expectln(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
         script.add(new ExpectLineAction(line, caller.getFileName(), caller.getLineNumber()));
@@ -35,8 +41,6 @@ public class ScriptBuilder {
     public void validate(Runnable function) {
         try {
             function.run();
-        } catch (NoSuchElementException possibleScannerException) {
-            possibleScannerUnderflow(possibleScannerException);
         } finally {
             System.setIn(originalIn);
             System.setOut(originalOut);
@@ -45,7 +49,7 @@ public class ScriptBuilder {
 
     private static void possibleScannerUnderflow(NoSuchElementException possibleScannerException) {
         if ("No line found".equals(possibleScannerException.getMessage())) {
-            throw new ScriptUnderflowException("Script underflow detected. Function wanted more input than script.");
+            throw new ScriptUnderflow("Script underflow detected. Target still running, but Script was finished.");
         } else throw possibleScannerException;
     }
 }

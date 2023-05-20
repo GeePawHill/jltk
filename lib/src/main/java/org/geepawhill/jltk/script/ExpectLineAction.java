@@ -1,7 +1,5 @@
 package org.geepawhill.jltk.script;
 
-import java.io.*;
-
 public class ExpectLineAction implements ScriptAction {
 
     final String whatToExpect;
@@ -37,10 +35,5 @@ public class ExpectLineAction implements ScriptAction {
     @Override
     public boolean isFinished() {
         return sawAccumulator;
-    }
-
-    @Override
-    public void dump(PrintStream destination) {
-        destination.println("Heard: [" + whatToExpect + "]");
     }
 }
