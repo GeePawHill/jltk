@@ -22,7 +22,7 @@ class Reply {
     }
 
     int asInteger() {
-        return 0;
+        return Integer.parseInt(text);
     }
 
     String asString() {
@@ -80,6 +80,24 @@ class Prompt {
         replies.add(new Reply(text));
         return true;
     }
+
+    public void anyInteger() {
+        anyInteger(System.in, System.out);
+    }
+
+    public void anyInteger(InputStream in, PrintStream out) {
+        run(in, out, this::integerChecker);
+    }
+
+    private boolean integerChecker(String text, ArrayList<Reply> replies) {
+        try {
+            Integer.parseInt(text);
+        } catch (Exception unused) {
+            return false;
+        }
+        replies.add(new Reply(text));
+        return true;
+    }
 }
 
 public class PromptTest {
@@ -114,5 +132,17 @@ public class PromptTest {
                 .sayln("Hi mom!")
                 .validate(prompt::nonEmptyString);
         assertEquals("Hi mom!", prompt.reply(0).asString());
+    }
+
+    @Test
+    void anyInteger() {
+        Prompt prompt = new Prompt("Enter an integer: ");
+        new ScriptBuilder()
+                .expect("Enter an integer: ")
+                .sayln("xyzzy")
+                .expect("Enter an integer: ")
+                .sayln("3")
+                .validate(prompt::anyInteger);
+        assertEquals(3, prompt.reply(0).asInteger());
     }
 }
