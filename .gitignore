@@ -5,4 +5,4 @@
 build
 
 # destination for the bash tests
-lib/testFolder
+testFolder

@@ -28,10 +28,6 @@ class Reply {
     String asString() {
         return text;
     }
-
-    boolean isQuit() {
-        return false;
-    }
 }
 
 class Prompt {

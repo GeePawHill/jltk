@@ -3,4 +3,4 @@ plugins {
 }
 
 rootProject.name = "jltk"
-include("lib")
+

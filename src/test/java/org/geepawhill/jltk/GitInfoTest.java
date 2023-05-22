@@ -31,7 +31,7 @@ public class GitInfoTest {
     @Test
     void worksOnThisRepo() {
         GitInfo info = new GitInfo();
-        String expected = Path.of("..").toAbsolutePath().normalize().toString();
+        String expected = Path.of(".").toAbsolutePath().normalize().toString();
         assertEquals(expected, info.root.toAbsolutePath().toString());
         // Lousy asserts, no way to know the correct values
         assertNotNull(info.branch);
@@ -42,7 +42,7 @@ public class GitInfoTest {
     @Test
     void knowsRepoFolder() {
         GitInfo info = new GitInfo();
-        String expected = Path.of("..").toAbsolutePath().normalize().toString();
+        String expected = Path.of(".").toAbsolutePath().normalize().toString();
         assertEquals(expected, info.root.toAbsolutePath().toString());
     }
 

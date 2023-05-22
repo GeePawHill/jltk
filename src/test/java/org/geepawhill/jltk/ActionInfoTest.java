@@ -32,7 +32,7 @@ public class ActionInfoTest {
     @Test
     void knowsFolders() throws IOException {
         ActionInfo info = new ActionInfo(new GitInfo(), "run");
-        String expectedRootWtc = Path.of("..", ".wtc").toFile().getCanonicalPath();
+        String expectedRootWtc = Path.of(".wtc").toFile().getCanonicalPath();
         assertEquals(expectedRootWtc, info.rootWtc().toFile().getCanonicalPath());
         String expectedHomeWtc = Path.of(System.getProperty("user.home"), ".wtc").toFile().getCanonicalPath();
         assertEquals(expectedHomeWtc, info.homeWtc().toFile().getCanonicalPath());
