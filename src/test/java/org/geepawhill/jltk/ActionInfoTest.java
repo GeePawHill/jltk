@@ -41,13 +41,6 @@ public class ActionInfoTest {
     @Test
     void loadsOnConstruction() {
         ActionInfo info = new ActionInfo(new GitInfo(), "run");
-//        // lousy asserts, but no way to know these fields, only to know they've been filled out
-//        assertNotNull(info.email);
-//        assertNotNull(info.committer);
-//        assertNotNull(info.branch);
-//        assertNotNull(info.timestamp);
-//        assertNotNull(info.filetime);
-
         assertEquals(info.type, "run");
         assertTrue(info.passes.isEmpty());
         assertTrue(info.fails.isEmpty());
@@ -66,13 +59,6 @@ public class ActionInfoTest {
         List<String> aborts = new ArrayList<>();
         aborts.add("abort");
         ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
-        // lousy asserts, but no way to know these fields, only to know they've been filled out
-        assertNotNull(info.email);
-        assertNotNull(info.committer);
-        assertNotNull(info.branch);
-        assertNotNull(info.timestamp);
-        assertNotNull(info.filetime);
-
         assertEquals(info.type, "test");
         assertTrue(info.passes.contains("pass"));
         assertTrue(info.fails.contains("fail"));

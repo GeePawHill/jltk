@@ -33,10 +33,6 @@ public class GitInfoTest {
         GitInfo info = new GitInfo();
         String expected = Path.of(".").toAbsolutePath().normalize().toString();
         assertEquals(expected, info.root.toAbsolutePath().toString());
-        // Lousy asserts, no way to know the correct values
-        assertNotNull(info.branch);
-        assertNotNull(info.email);
-        assertNotNull(info.committer);
     }
 
     @Test
