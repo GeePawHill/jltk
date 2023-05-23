@@ -55,9 +55,8 @@ public class WtcKeyManagerTest {
 
     @Test
     void bashPreCommitMakesNonExistingKey() {
-        BashRunner runner = new BashRunner("./wtc_pre_commit.sh", TEST_ROOT_FOLDER, TEST_HOME_FOLDER);
+        BashRunner runner = new BashRunner("./wtc_pre_commit.sh", TEST_ROOT_FOLDER, TEST_HOME_FOLDER, ".");
         int result = runner.execute(TEST_WORKING_FOLDER);
-        System.out.println(runner.io);
         assertEquals(0, result);
         folder.assertRootFiles();
         String key = folder.readRootWtcKey();

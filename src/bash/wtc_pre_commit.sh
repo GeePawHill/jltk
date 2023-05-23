@@ -15,7 +15,12 @@ extension=".wtc"
 log="$home_wtc/$key/$branch$delimiter$email$extension"
 
 # Emit the commit message
-$scripts/wtc_commit_log.sh | base64 --wrap=0 >>$log
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  base64cmd="base64"
+else
+  base64cmd="base64 --wrap=0"
+fi
+$scripts/wtc_commit_log.sh | $base64cmd >>$log
 
 # Name the final file by "branch_email_timestamp.wtc"
 unique=$(date +"%Y%m%d%H%M%S")
