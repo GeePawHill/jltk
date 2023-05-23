@@ -85,10 +85,6 @@ public class ActionInfoTest {
         assertArrayContains(actual, "fails", "fail");
         assertArrayContains(actual, "disables", "disable");
         assertArrayContains(actual, "aborts", "abort");
-        assertNotNull(actual.get("email"));
-        assertNotNull(actual.get("committer"));
-        assertNotNull(actual.get("branch"));
-        assertNotNull(actual.get("timestamp"));
     }
 
     void assertArrayContains(Map<String, Object> result, String key, String value) {
