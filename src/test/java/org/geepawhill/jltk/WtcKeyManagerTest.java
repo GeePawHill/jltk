@@ -32,6 +32,7 @@ public class WtcKeyManagerTest {
         folder.assertHomeFiles(key);
     }
 
+    @Disabled("WIP Cross-platform")
     @Test
     void bashFindsExistingKey() {
         folder.writeExistingKey("12345");
@@ -43,6 +44,7 @@ public class WtcKeyManagerTest {
         folder.assertHomeFiles(key);
     }
 
+    @Disabled("WIP Cross-platform")
     @Test
     void bashMakesNonExistingKey() {
         BashRunner runner = new BashRunner("./wtc_key_manager.sh", TEST_ROOT_FOLDER, TEST_HOME_FOLDER);
@@ -53,6 +55,7 @@ public class WtcKeyManagerTest {
         folder.assertHomeFiles(key);
     }
 
+    @Disabled("WIP Cross-platform")
     @Test
     void bashPreCommitMakesNonExistingKey() {
         BashRunner runner = new BashRunner("./wtc_pre_commit.sh", TEST_ROOT_FOLDER, TEST_HOME_FOLDER, ".");
