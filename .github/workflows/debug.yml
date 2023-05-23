@@ -12,7 +12,7 @@ jobs:
 
     - name: Set up secret file
       env:
-        DEBUG_KEY: ${{ secrets.SIGNING_KEY }}
+        DEBUG_KEY: ${{ secrets.SIGNINGKEY }}
       run: |
         echo $DEBUG_KEY >> secrets.txt
 
