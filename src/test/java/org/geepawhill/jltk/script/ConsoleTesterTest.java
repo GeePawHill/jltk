@@ -4,13 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.*;
 
-public class ConsoleTesterTest {
-    public static void readTwoStrings() {
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        scanner.nextLine();
-    }
-
+class ConsoleSamples {
     public static void writeTwoLines() {
         System.out.println("First line.");
         System.out.println("Second line.");
@@ -38,53 +32,10 @@ public class ConsoleTesterTest {
         System.out.println("Hello World!");
     }
 
-    @Test
-    void successfulSayOnly() {
-        new ConsoleTester()
-                .humanSays("first")
-                .humanSays("second")
-                .run(ConsoleTesterTest::readTwoStrings);
-    }
-
-    @Test
-    void successfulExpectlnOnly() {
-        new ConsoleTester()
-                .computerSays("First line.")
-                .computerSays("Second line.")
-                .run(ConsoleTesterTest::writeTwoLines);
-    }
-
-    @Test
-    void successfulExpectOnly() {
-        new ConsoleTester()
-                .computerPrompts("Just this: ")
-                .run(ConsoleTesterTest::onePrompt);
-    }
-
-    @Test
-    void successfulTwoExpects() {
-        new ConsoleTester()
-                .computerPrompts("Just this: ")
-                .computerPrompts(" Then that: ")
-                .run(ConsoleTesterTest::twoPrompts);
-    }
-
-    @Test
-    void mixedExpectsAndSays() {
-        new ConsoleTester()
-                .computerSays("First line.")
-                .humanSays("response")
-                .computerSays("Second line.")
-                .humanSays("second")
-                .computerSays("Done")
-                .run(ConsoleTesterTest::writeReadWriteReadWrite);
-    }
-
-    @Test
-    void ignoreLines() {
-        new ConsoleTester()
-                .computerChatters(2)
-                .run(ConsoleTesterTest::writeTwoLines);
+    public static void readTwoStrings() {
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        scanner.nextLine();
     }
 
     public static void simpleQueryEof() {
@@ -93,23 +44,75 @@ public class ConsoleTesterTest {
         scanner.nextLine();
         System.out.println("You guessed it!");
     }
+}
+
+public class ConsoleTesterTest {
+    @Test
+    void successfulHumanSaysOnly() {
+        new ConsoleTester()
+                .humanSays("first")
+                .humanSays("second")
+                .run(ConsoleSamples::readTwoStrings);
+    }
 
     @Test
-    void weirdLineEnding() {
+    void successfulComputerSaysOnly() {
+        new ConsoleTester()
+                .computerSays("First line.")
+                .computerSays("Second line.")
+                .run(ConsoleSamples::writeTwoLines);
+    }
+
+    @Test
+    void successfulOnePrompt() {
+        new ConsoleTester()
+                .computerPrompts("Just this: ")
+                .run(ConsoleSamples::onePrompt);
+    }
+
+    @Test
+    void successfulTwoPrompts() {
+        new ConsoleTester()
+                .computerPrompts("Just this: ")
+                .computerPrompts(" Then that: ")
+                .run(ConsoleSamples::twoPrompts);
+    }
+
+    @Test
+    void mixedDialog() {
+        new ConsoleTester()
+                .computerSays("First line.")
+                .humanSays("response")
+                .computerSays("Second line.")
+                .humanSays("second")
+                .computerSays("Done")
+                .run(ConsoleSamples::writeReadWriteReadWrite);
+    }
+
+    @Test
+    void successfulLineIgnores() {
+        new ConsoleTester()
+                .computerChatters(2)
+                .run(ConsoleSamples::writeTwoLines);
+    }
+
+
+    @Test
+    void successfulEofInsteadOfLinefeed() {
         new ConsoleTester()
                 .computerPrompts("guess")
                 .humanSays("34")
                 .computerSays("You guessed it!")
-                .run(ConsoleTesterTest::simpleQueryEof);
+                .run(ConsoleSamples::simpleQueryEof);
     }
 
     @Test
-    void underflowExpectOnly() {
+    void underflowOnComputer() {
         Assertions.assertThrows(ScriptUnderflow.class,
                 () -> {
                     new ConsoleTester()
                             .computerSays("First line.")
-                            .run(ConsoleTesterTest::writeTwoLines);
+                            .run(ConsoleSamples::writeTwoLines);
                 }
         );
     }
@@ -120,7 +123,7 @@ public class ConsoleTesterTest {
                 () -> {
                     new ConsoleTester()
                             .humanSays("first")
-                            .run(ConsoleTesterTest::readTwoStrings);
+                            .run(ConsoleSamples::readTwoStrings);
                 }
         );
     }
@@ -131,7 +134,7 @@ public class ConsoleTesterTest {
                 () -> {
                     new ConsoleTester()
                             .computerSays("Nope.")
-                            .run(ConsoleTesterTest::helloWorld);
+                            .run(ConsoleSamples::helloWorld);
                 }
         );
     }
@@ -141,23 +144,23 @@ public class ConsoleTesterTest {
     void unsafeWrongExpectValue() {
         new ConsoleTester()
                 .computerSays("Nope.")
-                .run(ConsoleTesterTest::helloWorld);
+                .run(ConsoleSamples::helloWorld);
     }
 
     @Disabled("Double-check JUnit output.")
     @Test
-    void unsafeUnderflowOnSay() {
+    void unsafeUnderflowOnHuman() {
         new ConsoleTester()
                 .humanSays("Nope.")
-                .run(ConsoleTesterTest::readTwoStrings);
+                .run(ConsoleSamples::readTwoStrings);
     }
 
     @Disabled("Double-check JUnit output.")
     @Test
-    void unsafeUnderflowOnExpect() {
+    void unsafeUnderflowOnComputer() {
         new ConsoleTester()
                 .computerSays("First line.")
-                .run(ConsoleTesterTest::writeTwoLines);
+                .run(ConsoleSamples::writeTwoLines);
     }
 
 }
