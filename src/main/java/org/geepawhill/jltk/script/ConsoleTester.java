@@ -16,7 +16,7 @@ public class ConsoleTester {
 
     public ConsoleTester humanSays(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new HumanSays(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new HumanSays(line));
         return this;
     }
 

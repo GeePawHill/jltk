@@ -2,23 +2,20 @@ package org.geepawhill.jltk.script;
 
 public class ComputerChatters implements ScriptAction {
     private int count;
-    private final String filename;
-    private final int lineNumber;
+    private final ScriptLocation location;
 
     public ComputerChatters(int count, String filename, int lineNumber) {
         this.count = count;
-        this.filename = filename;
-        this.lineNumber = lineNumber;
+        this.location = new ScriptLocation();
     }
 
     @Override
     public int read() {
-        throw new ScriptUnexpectedRead(filename, lineNumber);
+        throw new ScriptUnexpectedRead(location);
     }
 
     @Override
     public void write(int value) {
-        System.err.println((char) value);
         if (value == '\n') count -= 1;
     }
 
@@ -26,5 +23,4 @@ public class ComputerChatters implements ScriptAction {
     public boolean isFinished() {
         return count == 0;
     }
-
 }

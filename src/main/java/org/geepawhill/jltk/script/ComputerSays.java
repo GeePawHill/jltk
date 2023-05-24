@@ -3,20 +3,18 @@ package org.geepawhill.jltk.script;
 public class ComputerSays implements ScriptAction {
 
     final String whatToExpect;
-    final String filename;
-    final int lineNumber;
+    private final ScriptLocation location;
     String accumulator = "";
     boolean sawAccumulator = false;
 
     ComputerSays(String whatToExpect, String filename, int lineNumber) {
         this.whatToExpect = whatToExpect;
-        this.filename = filename;
-        this.lineNumber = lineNumber;
+        this.location = new ScriptLocation();
     }
 
     @Override
     public int read() {
-        throw new RuntimeException("Function read when script was expecting it to write.");
+        throw new ScriptUnexpectedRead(location);
     }
 
     @Override
@@ -24,7 +22,7 @@ public class ComputerSays implements ScriptAction {
         if (value == '\r') return;
         if (value == '\n') {
             if (!whatToExpect.equals(accumulator)) {
-                throw new ScriptException(filename, lineNumber, "Mismatched Expect. Wanted [" + whatToExpect + "] but got [" + accumulator + "]");
+                throw new ScriptException(location.fileName, location.lineNumber, "Mismatched Output. Script Wanted [" + whatToExpect + "] Computer said [" + accumulator + "]");
             }
             sawAccumulator = true;
         } else {

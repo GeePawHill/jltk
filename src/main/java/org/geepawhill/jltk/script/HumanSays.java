@@ -3,14 +3,12 @@ package org.geepawhill.jltk.script;
 public class HumanSays implements ScriptAction {
 
     final String whatToSay;
-    final String filename;
-    final int lineNumber;
+    final ScriptLocation location;
     int current = 0;
 
-    HumanSays(String whatToSay, String filename, int lineNumber) {
+    HumanSays(String whatToSay) {
+        this.location = new ScriptLocation();
         this.whatToSay = whatToSay;
-        this.filename = filename;
-        this.lineNumber = lineNumber;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class HumanSays implements ScriptAction {
 
     @Override
     public void write(int value) {
-        throw new ScriptUnexpectedRead(filename, lineNumber);
+        throw new ScriptUnexpectedRead(location);
     }
 
     @Override
