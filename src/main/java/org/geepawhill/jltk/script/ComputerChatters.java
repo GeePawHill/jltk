@@ -1,11 +1,11 @@
 package org.geepawhill.jltk.script;
 
-public class IgnoreLineAction implements ScriptAction {
+public class ComputerChatters implements ScriptAction {
     private int count;
     private final String filename;
     private final int lineNumber;
 
-    public IgnoreLineAction(int count, String filename, int lineNumber) {
+    public ComputerChatters(int count, String filename, int lineNumber) {
         this.count = count;
         this.filename = filename;
         this.lineNumber = lineNumber;

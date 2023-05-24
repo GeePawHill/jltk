@@ -1,6 +1,6 @@
 package org.geepawhill.jltk.script;
 
-public class ExpectLineAction implements ScriptAction {
+public class ComputerSays implements ScriptAction {
 
     final String whatToExpect;
     final String filename;
@@ -8,7 +8,7 @@ public class ExpectLineAction implements ScriptAction {
     String accumulator = "";
     boolean sawAccumulator = false;
 
-    ExpectLineAction(String whatToExpect, String filename, int lineNumber) {
+    ComputerSays(String whatToExpect, String filename, int lineNumber) {
         this.whatToExpect = whatToExpect;
         this.filename = filename;
         this.lineNumber = lineNumber;

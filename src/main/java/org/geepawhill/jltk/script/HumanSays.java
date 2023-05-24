@@ -1,13 +1,13 @@
 package org.geepawhill.jltk.script;
 
-public class SayLineAction implements ScriptAction {
+public class HumanSays implements ScriptAction {
 
     final String whatToSay;
     final String filename;
     final int lineNumber;
     int current = 0;
 
-    SayLineAction(String whatToSay, String filename, int lineNumber) {
+    HumanSays(String whatToSay, String filename, int lineNumber) {
         this.whatToSay = whatToSay;
         this.filename = filename;
         this.lineNumber = lineNumber;

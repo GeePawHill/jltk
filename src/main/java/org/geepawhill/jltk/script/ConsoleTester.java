@@ -3,42 +3,42 @@ package org.geepawhill.jltk.script;
 import java.io.*;
 import java.util.*;
 
-public class ScriptBuilder {
+public class ConsoleTester {
     private Script script = new Script();
 
     private InputStream originalIn = System.in;
     private PrintStream originalOut = System.out;
 
-    public ScriptBuilder() {
+    public ConsoleTester() {
         System.setIn(new ScriptInputStream(script));
         System.setOut(new PrintStream(new ScriptOutputStream(script)));
     }
 
-    public ScriptBuilder sayln(String line) {
+    public ConsoleTester humanSays(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new SayLineAction(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new HumanSays(line, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 
-    public ScriptBuilder expect(String line) {
+    public ConsoleTester computerPrompts(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ExpectAction(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerPrompts(line, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 
-    public ScriptBuilder ignoreln(int count) {
+    public ConsoleTester computerChatters(int count) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new IgnoreLineAction(count, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerChatters(count, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 
-    public ScriptBuilder expectln(String line) {
+    public ConsoleTester computerSays(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ExpectLineAction(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerSays(line, caller.getFileName(), caller.getLineNumber()));
         return this;
     }
 
-    public void validate(Runnable function) {
+    public void run(Runnable function) {
         try {
             function.run();
         } finally {

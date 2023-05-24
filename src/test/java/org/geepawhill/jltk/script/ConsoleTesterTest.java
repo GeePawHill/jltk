@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.*;
 
-public class ScriptBuilderTest {
+public class ConsoleTesterTest {
     public static void readTwoStrings() {
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
@@ -40,51 +40,51 @@ public class ScriptBuilderTest {
 
     @Test
     void successfulSayOnly() {
-        new ScriptBuilder()
-                .sayln("first")
-                .sayln("second")
-                .validate(ScriptBuilderTest::readTwoStrings);
+        new ConsoleTester()
+                .humanSays("first")
+                .humanSays("second")
+                .run(ConsoleTesterTest::readTwoStrings);
     }
 
     @Test
     void successfulExpectlnOnly() {
-        new ScriptBuilder()
-                .expectln("First line.")
-                .expectln("Second line.")
-                .validate(ScriptBuilderTest::writeTwoLines);
+        new ConsoleTester()
+                .computerSays("First line.")
+                .computerSays("Second line.")
+                .run(ConsoleTesterTest::writeTwoLines);
     }
 
     @Test
     void successfulExpectOnly() {
-        new ScriptBuilder()
-                .expect("Just this: ")
-                .validate(ScriptBuilderTest::onePrompt);
+        new ConsoleTester()
+                .computerPrompts("Just this: ")
+                .run(ConsoleTesterTest::onePrompt);
     }
 
     @Test
     void successfulTwoExpects() {
-        new ScriptBuilder()
-                .expect("Just this: ")
-                .expect(" Then that: ")
-                .validate(ScriptBuilderTest::twoPrompts);
+        new ConsoleTester()
+                .computerPrompts("Just this: ")
+                .computerPrompts(" Then that: ")
+                .run(ConsoleTesterTest::twoPrompts);
     }
 
     @Test
     void mixedExpectsAndSays() {
-        new ScriptBuilder()
-                .expectln("First line.")
-                .sayln("response")
-                .expectln("Second line.")
-                .sayln("second")
-                .expectln("Done")
-                .validate(ScriptBuilderTest::writeReadWriteReadWrite);
+        new ConsoleTester()
+                .computerSays("First line.")
+                .humanSays("response")
+                .computerSays("Second line.")
+                .humanSays("second")
+                .computerSays("Done")
+                .run(ConsoleTesterTest::writeReadWriteReadWrite);
     }
 
     @Test
     void ignoreLines() {
-        new ScriptBuilder()
-                .ignoreln(2)
-                .validate(ScriptBuilderTest::writeTwoLines);
+        new ConsoleTester()
+                .computerChatters(2)
+                .run(ConsoleTesterTest::writeTwoLines);
     }
 
     public static void simpleQueryEof() {
@@ -96,20 +96,20 @@ public class ScriptBuilderTest {
 
     @Test
     void weirdLineEnding() {
-        new ScriptBuilder()
-                .expect("guess")
-                .sayln("34")
-                .expectln("You guessed it!")
-                .validate(ScriptBuilderTest::simpleQueryEof);
+        new ConsoleTester()
+                .computerPrompts("guess")
+                .humanSays("34")
+                .computerSays("You guessed it!")
+                .run(ConsoleTesterTest::simpleQueryEof);
     }
 
     @Test
     void underflowExpectOnly() {
         Assertions.assertThrows(ScriptUnderflow.class,
                 () -> {
-                    new ScriptBuilder()
-                            .expectln("First line.")
-                            .validate(ScriptBuilderTest::writeTwoLines);
+                    new ConsoleTester()
+                            .computerSays("First line.")
+                            .run(ConsoleTesterTest::writeTwoLines);
                 }
         );
     }
@@ -118,9 +118,9 @@ public class ScriptBuilderTest {
     void underflowSayOnly() {
         Assertions.assertThrows(ScriptUnderflow.class,
                 () -> {
-                    new ScriptBuilder()
-                            .sayln("first")
-                            .validate(ScriptBuilderTest::readTwoStrings);
+                    new ConsoleTester()
+                            .humanSays("first")
+                            .run(ConsoleTesterTest::readTwoStrings);
                 }
         );
     }
@@ -129,9 +129,9 @@ public class ScriptBuilderTest {
     void wrongExpectValue() {
         Assertions.assertThrows(ScriptException.class,
                 () -> {
-                    new ScriptBuilder()
-                            .expectln("Nope.")
-                            .validate(ScriptBuilderTest::helloWorld);
+                    new ConsoleTester()
+                            .computerSays("Nope.")
+                            .run(ConsoleTesterTest::helloWorld);
                 }
         );
     }
@@ -139,25 +139,25 @@ public class ScriptBuilderTest {
     @Disabled("Double-check JUnit output.")
     @Test
     void unsafeWrongExpectValue() {
-        new ScriptBuilder()
-                .expectln("Nope.")
-                .validate(ScriptBuilderTest::helloWorld);
+        new ConsoleTester()
+                .computerSays("Nope.")
+                .run(ConsoleTesterTest::helloWorld);
     }
 
     @Disabled("Double-check JUnit output.")
     @Test
     void unsafeUnderflowOnSay() {
-        new ScriptBuilder()
-                .sayln("Nope.")
-                .validate(ScriptBuilderTest::readTwoStrings);
+        new ConsoleTester()
+                .humanSays("Nope.")
+                .run(ConsoleTesterTest::readTwoStrings);
     }
 
     @Disabled("Double-check JUnit output.")
     @Test
     void unsafeUnderflowOnExpect() {
-        new ScriptBuilder()
-                .expectln("First line.")
-                .validate(ScriptBuilderTest::writeTwoLines);
+        new ConsoleTester()
+                .computerSays("First line.")
+                .run(ConsoleTesterTest::writeTwoLines);
     }
 
 }
