@@ -16,11 +16,11 @@ import java.util.*;
  * return, and that integer will be the 0th reply value. If the user enters a non-integer, or a
  * blank line, it will repeat the prompt.
  *
- * <code>
+ * <pre>
  * Prompt rowPrompt = new Prompt("Please enter the row number: ");
  * rowPrompt.anyInteger();
  * int rowNumer = rowPrompt.reply(0).asInteger();
- * </code>
+ * </pre>
  */
 public class Prompt {
     private final String text;
@@ -39,12 +39,7 @@ public class Prompt {
     }
 
     public void anyString(InputStream in, PrintStream out) {
-        run(in, out, this::anyChecker);
-    }
-
-    private boolean anyChecker(String text, ArrayList<Reply> replies) {
-        replies.add(new Reply(text));
-        return true;
+        run(in, out, new StringChecker());
     }
 
     public void run(Checker checker) {
@@ -64,13 +59,7 @@ public class Prompt {
     }
 
     public void nonEmptyString(InputStream in, PrintStream out) {
-        run(in, out, this::nonEmptyChecker);
-    }
-
-    private boolean nonEmptyChecker(String text, ArrayList<Reply> replies) {
-        if (text.isBlank()) return false;
-        replies.add(new Reply(text));
-        return true;
+        run(in, out, new NonEmptyChecker());
     }
 
     public void anyInteger() {
@@ -78,16 +67,6 @@ public class Prompt {
     }
 
     public void anyInteger(InputStream in, PrintStream out) {
-        run(in, out, this::integerChecker);
-    }
-
-    private boolean integerChecker(String text, ArrayList<Reply> replies) {
-        try {
-            Integer.parseInt(text);
-        } catch (Exception unused) {
-            return false;
-        }
-        replies.add(new Reply(text));
-        return true;
+        run(in, out, new IntegerChecker());
     }
 }
