@@ -3,13 +3,12 @@ package org.geepawhill.jltk.prompt;
 import java.util.*;
 
 /**
- * A Checker to run other checkers in sequence.<p/>
- * <p>
- * The SeriesChecker takes a regex String and a list of Checkers.<p/>
+ * A Checker to run other checkers in sequence.
+ * <p>The SeriesChecker takes a regex String and a list of Checkers.</p>
  * <p>
  * It splits a line of text into tokens, then runs the first checker on the
  * first token, the second on the second, and so on. If all the Checkers are satisfied,
- * this SeriesChecker is satisfied, otherwise not.<p/>
+ * this SeriesChecker is satisfied, otherwise not.</p>
  */
 public class SeriesChecker implements Checker {
 

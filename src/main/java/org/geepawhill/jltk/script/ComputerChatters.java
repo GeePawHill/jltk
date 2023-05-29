@@ -9,7 +9,7 @@ public class ComputerChatters implements ScriptAction {
     private final ScriptLocation location;
 
     /**
-     * Constructor specifying the number of lines we should ignore.<p/>
+     * Constructor specifying the number of lines we should ignore.
      *
      * @param lines -- int, how many lines to let the computer say
      */
