@@ -1,11 +1,20 @@
 package org.geepawhill.jltk.script;
 
+/**
+ * A script action to cover the situation where we know the computer is
+ * going to say things, but we don't care *what* it says, just how many lines.
+ */
 public class ComputerChatters implements ScriptAction {
     private int count;
     private final ScriptLocation location;
 
-    public ComputerChatters(int count, String filename, int lineNumber) {
-        this.count = count;
+    /**
+     * Constructor specifying the number of lines we should ignore.<p/>
+     *
+     * @param lines -- int, how many lines to let the computer say
+     */
+    public ComputerChatters(int lines) {
+        this.count = lines;
         this.location = new ScriptLocation();
     }
 

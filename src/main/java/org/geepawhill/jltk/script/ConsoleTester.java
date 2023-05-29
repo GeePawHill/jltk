@@ -28,7 +28,7 @@ public class ConsoleTester {
 
     public ConsoleTester computerChatters(int count) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ComputerChatters(count, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerChatters(count));
         return this;
     }
 
