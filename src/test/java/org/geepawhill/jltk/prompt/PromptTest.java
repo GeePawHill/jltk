@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PromptTest {
 
     @Test
-    void anyString() {
+    void systemIoAnyString() {
         Prompt prompt = new Prompt("Enter a string: ");
         new ConsoleTester()
                 .computerPrompts("Enter a string: ")
                 .humanSays("Hi Mom!")
                 .run(prompt::anyString);
-        assertEquals("Hi Mom!", prompt.reply(0).asString());
+        assertEquals("Hi Mom!", prompt.asString());
     }
 
     @Test
-    void alternateIo() {
+    void alternateIoAnyString() {
         PrintStream alternateOut = new PrintStream(new ByteArrayOutputStream());
         ByteArrayInputStream alternateIn = new ByteArrayInputStream("xyzzy".getBytes());
         Prompt prompt = new Prompt(alternateIn, alternateOut, "Enter a string: ", new StringChecker());
@@ -35,19 +35,19 @@ public class PromptTest {
                 .computerPrompts("Enter a string: ")
                 .humanSays("")
                 .run(prompt::anyString);
-        assertEquals("", prompt.reply(0).asString());
+        assertEquals("", prompt.asString());
     }
 
     @Test
     void nonEmptyString() {
-        Prompt prompt = new Prompt("Enter a string: ");
+        Prompt prompt = new Prompt("Enter a string: ", new NonEmptyChecker());
         new ConsoleTester()
                 .computerPrompts("Enter a string: ")
                 .humanSays("")
                 .computerPrompts("Enter a string: ")
                 .humanSays("Hi mom!")
-                .run(prompt::nonEmptyString);
-        assertEquals("Hi mom!", prompt.reply(0).asString());
+                .run(prompt::run);
+        assertEquals("Hi mom!", prompt.asString());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class PromptTest {
                 .computerPrompts("Enter an integer: ")
                 .humanSays("3")
                 .run(prompt::anyInteger);
-        assertEquals(3, prompt.reply(0).asInteger());
+        assertEquals(3, prompt.asInteger());
     }
 }

@@ -36,16 +36,8 @@ public class Prompt {
         this.checker = safeChecker(checkers);
     }
 
-    static private Checker safeChecker(Checker[] checkers) {
-        if (checkers == null || checkers.length == 0) return new StringChecker();
-        return checkers[0];
-    }
-
-    public Prompt(String text) {
-        this.text = text;
-        this.in = null;
-        this.out = null;
-        this.checker = null;
+    public Prompt(String text, Checker... checkers) {
+        this(null, null, text, checkers);
     }
 
     public Reply reply(int index) {
@@ -78,6 +70,11 @@ public class Prompt {
             String response = new Scanner(in).nextLine();
             if (((Checker) new StringChecker()).isSatisfied(response, replies)) break;
         }
+    }
+
+    static private Checker safeChecker(Checker[] checkers) {
+        if (checkers == null || checkers.length == 0) return new StringChecker();
+        return new OrChecker(checkers);
     }
 
     public void run() {
