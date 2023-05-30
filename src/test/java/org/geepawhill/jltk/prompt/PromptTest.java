@@ -15,7 +15,7 @@ public class PromptTest {
         new ConsoleTester()
                 .computerPrompts("Enter a string: ")
                 .humanSays("Hi Mom!")
-                .run(prompt::anyString);
+                .run(prompt::run);
         assertEquals("Hi Mom!", prompt.asString());
     }
 
@@ -34,7 +34,7 @@ public class PromptTest {
         new ConsoleTester()
                 .computerPrompts("Enter a string: ")
                 .humanSays("")
-                .run(prompt::anyString);
+                .run(prompt::run);
         assertEquals("", prompt.asString());
     }
 
@@ -52,13 +52,13 @@ public class PromptTest {
 
     @Test
     void anyInteger() {
-        Prompt prompt = new Prompt("Enter an integer: ");
+        Prompt prompt = new Prompt("Enter an integer: ", new IntegerChecker());
         new ConsoleTester()
                 .computerPrompts("Enter an integer: ")
                 .humanSays("xyzzy")
                 .computerPrompts("Enter an integer: ")
                 .humanSays("3")
-                .run(prompt::anyInteger);
+                .run(prompt::run);
         assertEquals(3, prompt.asInteger());
     }
 }

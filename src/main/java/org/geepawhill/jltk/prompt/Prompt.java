@@ -6,21 +6,42 @@ import java.util.*;
 /**
  * Provides easy and safe collection and validation of user input.
  * <p>
- * The Prompt class is used to create prompts on System.out and read whole lines from
- * System.in, returning those lines as Reply objects which can be used to extract
+ * The Prompt class is used to create prompts on a PrintStream and read whole lines from
+ * an InputStream, returning those lines as Reply objects which can be used to extract
  * fundamental java types safely. Unlike java.util.Scanner, it does not throw exceptions on
- * invalid user input, it just repeats the prompt and tries again.
- * <p>
- * The snippet below will prompt the user with "Please enter the row number: " and wait for
+ * invalid user input, it just repeats the prompt and tries again.</p>
+ *
+ * <p>Although the Prompt class supports arbitrary i/o streams and can take any class
+ * that implements Checker, it supports the most common scenarios in two ways:
+ * </p>
+ * <ul>
+ *     <li>Multiple constructors assume System.in and System.out unless constructed otherwise.</li>
+ *     <li>The most common cases are supported by static convenience functions.</li>
+ * </ul>
+ *
+ * <p>The snippet below will prompt the user with "Please enter the row number: " and wait for
  * the user to type characters and press enter. If the user enters a valid integer, it will
  * return, and that integer will be the 0th reply value. If the user enters a non-integer, or a
- * blank line, it will repeat the prompt.
+ * blank line, it will repeat the prompt.</p>
  *
  * <pre>
- * Prompt rowPrompt = new Prompt("Please enter the row number: ");
- * rowPrompt.anyInteger();
- * int rowNumer = rowPrompt.reply(0).asInteger();
+ *      Prompt rowPrompt = new Prompt("Please enter the row number: ",new IntegerChecker());
+ *      rowPrompt.run();
+ *      int rowNumer = rowPrompt.reply(0).asInteger();
  * </pre>
+ *
+ * <p>That same effect can be achieved by this one-liner convenience function:</p>
+ *
+ * <pre>
+ *      int rowNumber = Prompt.anyInteger("Please enter the row number: ");
+ * </pre>
+ *
+ * <p>
+ *     A prompt may be created once and run many times. Each run is a separate process and prints new
+ *     text and reads input again.
+ * </p>
+ *
+ * @see Checker for several useful pre-defined checkers.
  */
 public class Prompt {
     private final String text;
@@ -60,33 +81,17 @@ public class Prompt {
         return asReply().asInteger();
     }
 
-    public void anyString() {
-        anyString(System.in, System.out);
-    }
-
-    public void anyString(InputStream in, PrintStream out) {
+    public void run() {
         while (true) {
-            out.print(text);
-            String response = new Scanner(in).nextLine();
-            if (((Checker) new StringChecker()).isSatisfied(response, replies)) break;
+            chooseOut().print(text);
+            String response = new Scanner(chooseIn()).nextLine();
+            if (checker.isSatisfied(response, replies)) break;
         }
     }
 
     static private Checker safeChecker(Checker[] checkers) {
         if (checkers == null || checkers.length == 0) return new StringChecker();
         return new OrChecker(checkers);
-    }
-
-    public void run() {
-        run(checker);
-    }
-
-    public void run(Checker checker) {
-        while (true) {
-            chooseOut().print(text);
-            String response = new Scanner(chooseIn()).nextLine();
-            if (checker.isSatisfied(response, replies)) break;
-        }
     }
 
     private InputStream chooseIn() {
@@ -99,27 +104,22 @@ public class Prompt {
         return out;
     }
 
-    public void nonEmptyString() {
-        nonEmptyString(System.in, System.out);
+    public static int anyInteger(String text) {
+        Prompt prompt = new Prompt(text, new IntegerChecker());
+        prompt.run();
+        return prompt.asInteger();
     }
 
-    public void nonEmptyString(InputStream in, PrintStream out) {
-        while (true) {
-            out.print(text);
-            String response = new Scanner(in).nextLine();
-            if (((Checker) new NonEmptyChecker()).isSatisfied(response, replies)) break;
-        }
+    public static String anyString(String text) {
+        Prompt prompt = new Prompt(text, new StringChecker());
+        prompt.run();
+        return prompt.asString();
     }
 
-    public void anyInteger() {
-        anyInteger(System.in, System.out);
+    public static String nonEmpty(String text) {
+        Prompt prompt = new Prompt(text, new NonEmptyChecker());
+        prompt.run();
+        return prompt.asString();
     }
 
-    public void anyInteger(InputStream in, PrintStream out) {
-        while (true) {
-            out.print(text);
-            String response = new Scanner(in).nextLine();
-            if (((Checker) new IntegerChecker()).isSatisfied(response, replies)) break;
-        }
-    }
 }
