@@ -54,7 +54,7 @@ public class Prompt {
         this.in = in;
         this.out = out;
         this.text = text;
-        this.checker = safeChecker(checkers);
+        this.checker = Checker.safeChecker(checkers);
     }
 
     public Prompt(String text, Checker... checkers) {
@@ -89,11 +89,6 @@ public class Prompt {
         }
     }
 
-    static private Checker safeChecker(Checker[] checkers) {
-        if (checkers == null || checkers.length == 0) return new StringChecker();
-        return new OrChecker(checkers);
-    }
-
     private InputStream chooseIn() {
         if (in == null) return System.in;
         return in;
@@ -120,6 +115,14 @@ public class Prompt {
         Prompt prompt = new Prompt(text, new NonEmptyChecker());
         prompt.run();
         return prompt.asString();
+    }
+
+    public static List<Reply> manyIntegers(String text, int howMany) {
+        Checker[] checkers = new Checker[howMany];
+        for (int checker = 0; checker < howMany; checker++) checkers[checker] = new IntegerChecker();
+        Prompt prompt = new Prompt(text, new SeriesChecker("[\b,]", checkers));
+        prompt.run();
+        return prompt.replies;
     }
 
 }

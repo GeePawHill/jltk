@@ -17,4 +17,9 @@ public interface Checker {
      * @return boolean, whether or not this Checker is satisfied with this candidate.
      */
     boolean isSatisfied(String candidate, ArrayList<Reply> replies);
+
+    static Checker safeChecker(Checker... checkers) {
+        if (checkers == null || checkers.length == 0) return new StringChecker();
+        return new OrChecker(checkers);
+    }
 }

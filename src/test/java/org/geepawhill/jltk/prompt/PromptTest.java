@@ -22,7 +22,7 @@ public class PromptTest {
     @Test
     void alternateIoAnyString() {
         PrintStream alternateOut = new PrintStream(new ByteArrayOutputStream());
-        ByteArrayInputStream alternateIn = new ByteArrayInputStream("xyzzy".getBytes());
+        ByteArrayInputStream alternateIn = new ByteArrayInputStream("xyzzy\n".getBytes());
         Prompt prompt = new Prompt(alternateIn, alternateOut, "Enter a string: ", new StringChecker());
         prompt.run();
         assertEquals("xyzzy", prompt.asString());
@@ -60,5 +60,23 @@ public class PromptTest {
                 .humanSays("3")
                 .run(prompt::run);
         assertEquals(3, prompt.asInteger());
+    }
+
+    @Test
+    void threeIntegers() {
+        Checker[] checkers = new Checker[3];
+        for (int checker = 0; checker < 3; checker++) checkers[checker] = new IntegerChecker();
+        PrintStream alternateOut = new PrintStream(new ByteArrayOutputStream());
+        ByteArrayInputStream alternateIn = new ByteArrayInputStream("1,2,3\n".getBytes());
+        Prompt prompt = new Prompt(
+                alternateIn,
+                alternateOut,
+                "Enter three integers: ",
+                new SeriesChecker(",", checkers)
+        );
+        prompt.run();
+        assertEquals(1, prompt.asReplies().get(0).asInteger());
+        assertEquals(2, prompt.asReplies().get(1).asInteger());
+        assertEquals(3, prompt.asReplies().get(2).asInteger());
     }
 }
