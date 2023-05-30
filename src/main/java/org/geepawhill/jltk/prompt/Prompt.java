@@ -25,13 +25,47 @@ import java.util.*;
 public class Prompt {
     private final String text;
     private final ArrayList<Reply> replies = new ArrayList<>();
+    private final InputStream in;
+    private final PrintStream out;
+    private final Checker checker;
+
+    public Prompt(InputStream in, PrintStream out, String text, Checker... checkers) {
+        this.in = in;
+        this.out = out;
+        this.text = text;
+        this.checker = safeChecker(checkers);
+    }
+
+    static private Checker safeChecker(Checker[] checkers) {
+        if (checkers == null || checkers.length == 0) return new StringChecker();
+        return checkers[0];
+    }
+
+    public Prompt(String text) {
+        this.text = text;
+        this.in = null;
+        this.out = null;
+        this.checker = null;
+    }
 
     public Reply reply(int index) {
         return replies.get(index);
     }
 
-    public Prompt(String text) {
-        this.text = text;
+    public Reply asReply() {
+        return reply(0);
+    }
+
+    public List<Reply> asReplies() {
+        return replies;
+    }
+
+    public String asString() {
+        return asReply().asString();
+    }
+
+    public int asInteger() {
+        return asReply().asInteger();
     }
 
     public void anyString() {
@@ -39,19 +73,33 @@ public class Prompt {
     }
 
     public void anyString(InputStream in, PrintStream out) {
-        run(in, out, new StringChecker());
-    }
-
-    public void run(Checker checker) {
-        run(System.in, System.out, checker);
-    }
-
-    public void run(InputStream in, PrintStream out, Checker checker) {
         while (true) {
             out.print(text);
             String response = new Scanner(in).nextLine();
+            if (((Checker) new StringChecker()).isSatisfied(response, replies)) break;
+        }
+    }
+
+    public void run() {
+        run(checker);
+    }
+
+    public void run(Checker checker) {
+        while (true) {
+            chooseOut().print(text);
+            String response = new Scanner(chooseIn()).nextLine();
             if (checker.isSatisfied(response, replies)) break;
         }
+    }
+
+    private InputStream chooseIn() {
+        if (in == null) return System.in;
+        return in;
+    }
+
+    private PrintStream chooseOut() {
+        if (out == null) return System.out;
+        return out;
     }
 
     public void nonEmptyString() {
@@ -59,7 +107,11 @@ public class Prompt {
     }
 
     public void nonEmptyString(InputStream in, PrintStream out) {
-        run(in, out, new NonEmptyChecker());
+        while (true) {
+            out.print(text);
+            String response = new Scanner(in).nextLine();
+            if (((Checker) new NonEmptyChecker()).isSatisfied(response, replies)) break;
+        }
     }
 
     public void anyInteger() {
@@ -67,6 +119,10 @@ public class Prompt {
     }
 
     public void anyInteger(InputStream in, PrintStream out) {
-        run(in, out, new IntegerChecker());
+        while (true) {
+            out.print(text);
+            String response = new Scanner(in).nextLine();
+            if (((Checker) new IntegerChecker()).isSatisfied(response, replies)) break;
+        }
     }
 }

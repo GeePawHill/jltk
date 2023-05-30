@@ -3,6 +3,8 @@ package org.geepawhill.jltk.prompt;
 import org.geepawhill.jltk.script.*;
 import org.junit.jupiter.api.*;
 
+import java.io.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PromptTest {
@@ -15,6 +17,15 @@ public class PromptTest {
                 .humanSays("Hi Mom!")
                 .run(prompt::anyString);
         assertEquals("Hi Mom!", prompt.reply(0).asString());
+    }
+
+    @Test
+    void alternateIo() {
+        PrintStream alternateOut = new PrintStream(new ByteArrayOutputStream());
+        ByteArrayInputStream alternateIn = new ByteArrayInputStream("xyzzy".getBytes());
+        Prompt prompt = new Prompt(alternateIn, alternateOut, "Enter a string: ", new StringChecker());
+        prompt.run();
+        assertEquals("xyzzy", prompt.asString());
     }
 
     @Test
