@@ -15,25 +15,26 @@ public class ConsoleTester {
     }
 
     public ConsoleTester humanSays(String line) {
-        StackTraceElement caller = new Throwable().getStackTrace()[1];
         script.add(new HumanSays(line));
         return this;
     }
 
     public ConsoleTester computerPrompts(String line) {
-        StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ComputerPrompts(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerPrompts(line));
         return this;
     }
 
     public ConsoleTester computerChatters(int count) {
-        StackTraceElement caller = new Throwable().getStackTrace()[1];
         script.add(new ComputerChatters(count));
         return this;
     }
 
+    public ConsoleTester computerChattersUntil(String whatToExpect, int maxLines) {
+        script.add(new ComputerChattersUntil(whatToExpect, maxLines));
+        return this;
+    }
+
     public ConsoleTester computerSays(String line) {
-        StackTraceElement caller = new Throwable().getStackTrace()[1];
         script.add(new ComputerSays(line));
         return this;
     }

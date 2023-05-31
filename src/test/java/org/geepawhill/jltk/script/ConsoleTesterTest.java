@@ -46,6 +46,7 @@ class ConsoleSamples {
     }
 }
 
+
 public class ConsoleTesterTest {
     @Test
     void successfulHumanSaysOnly() {
@@ -79,7 +80,7 @@ public class ConsoleTesterTest {
     }
 
     @Test
-    void mixedDialog() {
+    void successfulMixedDialog() {
         new ConsoleTester()
                 .computerSays("First line.")
                 .humanSays("response")
@@ -90,12 +91,29 @@ public class ConsoleTesterTest {
     }
 
     @Test
-    void successfulLineIgnores() {
+    void successfulComputerChatters() {
         new ConsoleTester()
                 .computerChatters(2)
                 .run(ConsoleSamples::writeTwoLines);
     }
 
+    @Test
+    void successfulComputerChattersUntil() {
+        new ConsoleTester()
+                .computerChattersUntil("Second Line", 2)
+                .run(ConsoleSamples::writeTwoLines);
+    }
+
+    @Test
+    void failedComputerChattersTooLong() {
+        Assertions.assertThrows(ScriptException.class,
+                () -> {
+                    new ConsoleTester()
+                            .computerChattersUntil("Second Line", 1)
+                            .run(ConsoleSamples::writeTwoLines);
+                }
+        );
+    }
 
     @Test
     void successfulEofInsteadOfLinefeed() {
@@ -127,6 +145,7 @@ public class ConsoleTesterTest {
                 }
         );
     }
+
 
     @Test
     void wrongExpectValue() {
