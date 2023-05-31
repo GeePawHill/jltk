@@ -34,7 +34,7 @@ public class ConsoleTester {
 
     public ConsoleTester computerSays(String line) {
         StackTraceElement caller = new Throwable().getStackTrace()[1];
-        script.add(new ComputerSays(line, caller.getFileName(), caller.getLineNumber()));
+        script.add(new ComputerSays(line));
         return this;
     }
 

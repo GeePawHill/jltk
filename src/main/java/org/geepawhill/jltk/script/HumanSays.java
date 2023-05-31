@@ -26,7 +26,7 @@ public class HumanSays implements ScriptAction {
 
     @Override
     public void write(int value) {
-        throw new ScriptUnexpectedRead(location);
+        throw new ScriptUnexpectedWrite(location);
     }
 
     @Override

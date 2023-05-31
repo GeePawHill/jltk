@@ -7,7 +7,7 @@ public class ComputerSays implements ScriptAction {
     String accumulator = "";
     boolean sawAccumulator = false;
 
-    ComputerSays(String whatToExpect, String filename, int lineNumber) {
+    ComputerSays(String whatToExpect) {
         this.whatToExpect = whatToExpect;
         this.location = new ScriptLocation();
     }
@@ -22,7 +22,7 @@ public class ComputerSays implements ScriptAction {
         if (value == '\r') return;
         if (value == '\n') {
             if (!whatToExpect.equals(accumulator)) {
-                throw new ScriptException(location.fileName, location.lineNumber, "Mismatched Output. Script Wanted [" + whatToExpect + "] Computer said [" + accumulator + "]");
+                throw new ScriptException(location, "Mismatched Output. Script Wanted [" + whatToExpect + "] Computer said [" + accumulator + "]");
             }
             sawAccumulator = true;
         } else {

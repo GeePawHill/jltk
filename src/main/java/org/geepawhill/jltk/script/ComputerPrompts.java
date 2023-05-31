@@ -21,7 +21,7 @@ public class ComputerPrompts implements ScriptAction {
     public void write(int value) {
         accumulator = accumulator + (char) value;
         if (!whatToExpect.startsWith(accumulator)) {
-            throw new ScriptException(location.fileName, location.lineNumber, "Script expected [" + whatToExpect + "] but Target wrote [" + accumulator + "]");
+            throw new ScriptException(location, "Script expected [" + whatToExpect + "] but Target wrote [" + accumulator + "]");
         }
         if (whatToExpect.equals(accumulator)) sawAccumulator = true;
     }
