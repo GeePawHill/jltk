@@ -25,7 +25,9 @@ public class ComputerChattersUntil implements ScriptAction {
         if (value == '\n') {
             if (accumulator.equals(whatToExpect)) {
                 sawTarget = true;
-            } else accumulator = "";
+                return;
+            }
+            accumulator = "";
             linesLeft -= 1;
             if (linesLeft < 0) {
                 throw new ScriptException(location, "Computer chattered too many lines (" + maxLines + ".");
