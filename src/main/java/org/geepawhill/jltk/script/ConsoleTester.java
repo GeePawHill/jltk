@@ -3,6 +3,10 @@ package org.geepawhill.jltk.script;
 import java.io.*;
 import java.util.*;
 
+/**
+ * ConsoleTester is a class for writing test scripts that work on
+ */
+
 public class ConsoleTester {
     private Script script = new Script();
 

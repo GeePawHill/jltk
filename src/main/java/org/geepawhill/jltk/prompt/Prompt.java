@@ -1,6 +1,7 @@
 package org.geepawhill.jltk.prompt;
 
 import java.io.*;
+import java.math.*;
 import java.util.*;
 
 /**
@@ -81,6 +82,14 @@ public class Prompt {
         return asReply().asInteger();
     }
 
+    public double asDouble() {
+        return asReply().asDouble();
+    }
+
+    public BigDecimal asDecimal() {
+        return asReply().asDecimal();
+    }
+
     public void run() {
         while (true) {
             chooseOut().print(text);
@@ -109,6 +118,18 @@ public class Prompt {
         Prompt prompt = new Prompt(text, new StringChecker());
         prompt.run();
         return prompt.asString();
+    }
+
+    public static double anyDouble(String text) {
+        Prompt prompt = new Prompt(text, new DoubleChecker());
+        prompt.run();
+        return prompt.asDouble();
+    }
+
+    public static BigDecimal anyDecimal(String text) {
+        Prompt prompt = new Prompt(text, new DecimalChecker());
+        prompt.run();
+        return prompt.asDecimal();
     }
 
     public static String nonEmpty(String text) {
