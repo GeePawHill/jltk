@@ -38,7 +38,7 @@ public class ActionInfo {
         this.home = git.home;
         this.root = git.root;
         this.branch = git.branch;
-        this.committer = git.committer;
+        this.committer = git.username;
         this.email = git.email;
         this.type = type;
         this.timestamp = timestamp;

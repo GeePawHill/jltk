@@ -14,7 +14,7 @@ public class GitInfoTest {
         GitInfo info = new GitInfo(GitInfo.home(), Path.of("."), "branch", "committer", "email");
         assertEquals(Path.of("."), info.root);
         assertEquals("branch", info.branch);
-        assertEquals("committer", info.committer);
+        assertEquals("committer", info.username);
         assertEquals("email", info.email);
     }
 
@@ -24,7 +24,7 @@ public class GitInfoTest {
         try {
             new GitInfo(System.getProperty("user.home"));
             Assertions.fail("non-git working folder did not throw.");
-        } catch (NoGitWorkingFolderException expected) {
+        } catch (NoGitWorkingFolder expected) {
         }
     }
 
