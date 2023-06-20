@@ -9,9 +9,20 @@ import java.time.*;
 import java.util.*;
 
 import static java.util.Collections.*;
+import static org.geepawhill.jltk.flow.ActionInfo.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ActionInfoTest {
+
+    @Test
+    void gitInfoAndTypeConstructorWorks() {
+        ActionInfo info = new ActionInfo(new GitInfo(), "run");
+        assertEquals(info.type, "run");
+        assertTrue(info.passes.isEmpty());
+        assertTrue(info.fails.isEmpty());
+        assertTrue(info.disables.isEmpty());
+        assertTrue(info.aborts.isEmpty());
+    }
 
     @Test
     void timestampConstructorWorks() {
@@ -30,34 +41,11 @@ public class ActionInfoTest {
     }
 
     @Test
-    void knowsFolders() throws IOException {
-        ActionInfo info = new ActionInfo(new GitInfo(), "run");
-        String expectedRootWtc = Path.of(".wtc").toFile().getCanonicalPath();
-        assertEquals(expectedRootWtc, info.rootWtc().toFile().getCanonicalPath());
-        String expectedHomeWtc = Path.of(System.getProperty("user.home"), ".wtc").toFile().getCanonicalPath();
-        assertEquals(expectedHomeWtc, info.homeWtc().toFile().getCanonicalPath());
-    }
-
-    @Test
-    void loadsOnConstruction() {
-        ActionInfo info = new ActionInfo(new GitInfo(), "run");
-        assertEquals(info.type, "run");
-        assertTrue(info.passes.isEmpty());
-        assertTrue(info.fails.isEmpty());
-        assertTrue(info.disables.isEmpty());
-        assertTrue(info.aborts.isEmpty());
-    }
-
-    @Test
-    void loadsOnConstructionForTest() {
-        List<String> passes = new ArrayList<>();
-        passes.add("pass");
-        List<String> fails = new ArrayList<>();
-        fails.add("fail");
-        List<String> disables = new ArrayList<>();
-        disables.add("disable");
-        List<String> aborts = new ArrayList<>();
-        aborts.add("abort");
+    void testListsConstructorWorks() {
+        List<String> passes = Collections.singletonList("pass");
+        List<String> fails = Collections.singletonList("fail");
+        List<String> disables = Collections.singletonList("disable");
+        List<String> aborts = Collections.singletonList("abort");
         ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
         assertEquals(info.type, "test");
         assertTrue(info.passes.contains("pass"));
@@ -67,15 +55,20 @@ public class ActionInfoTest {
     }
 
     @Test
+    void knowsFolders() throws IOException {
+        ActionInfo info = new ActionInfo(new GitInfo(), "run");
+        String expectedRootJltk = Path.of(JLTK_FOLDER).toFile().getCanonicalPath();
+        assertEquals(expectedRootJltk, info.rootWtc().toFile().getCanonicalPath());
+        String expectedHomeJltk = Path.of(System.getProperty("user.home"), JLTK_FOLDER).toFile().getCanonicalPath();
+        assertEquals(expectedHomeJltk, info.homeWtc().toFile().getCanonicalPath());
+    }
+
+    @Test
     void yamlRoundtrip() {
-        List<String> passes = new ArrayList<>();
-        passes.add("pass");
-        List<String> fails = new ArrayList<>();
-        fails.add("fail");
-        List<String> disables = new ArrayList<>();
-        disables.add("disable");
-        List<String> aborts = new ArrayList<>();
-        aborts.add("abort");
+        List<String> passes = Collections.singletonList("pass");
+        List<String> fails = Collections.singletonList("fail");
+        List<String> disables = Collections.singletonList("disable");
+        List<String> aborts = Collections.singletonList("abort");
         ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
         String infoAsYaml = info.toYaml();
         Yaml yaml = new Yaml();

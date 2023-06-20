@@ -64,7 +64,7 @@ public class WtcRecorder {
         String leafName = committer.branch
                 + "_" + shortEmail
                 + ".wtc";
-        return committer.home.resolve(Path.of(ActionInfo.WTC_FOLDER, key, leafName));
+        return committer.home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
     }
 
     String makeRunYaml(ActionInfo info) {

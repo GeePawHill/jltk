@@ -18,9 +18,9 @@ public class TestFolder {
     public TestFolder(Path root, Path home) {
         this.root = root;
         this.home = home;
-        this.rootWtc = root.resolve(WTC_FOLDER);
-        this.homeWtc = home.resolve(WTC_FOLDER);
-        this.rootWtcKey = rootWtc.resolve(WTC_KEYFILE);
+        this.rootWtc = root.resolve(JLTK_FOLDER);
+        this.homeWtc = home.resolve(JLTK_FOLDER);
+        this.rootWtcKey = rootWtc.resolve(JLTK_KEY);
         try {
             wipeHome();
             wipeRoot();
@@ -87,7 +87,7 @@ public class TestFolder {
     }
 
     File[] homeWtcFiles() {
-        return home.resolve(WTC_FOLDER).toFile().listFiles();
+        return home.resolve(JLTK_FOLDER).toFile().listFiles();
     }
 
     File[] homeFiles() {
@@ -99,7 +99,7 @@ public class TestFolder {
     }
 
     public File[] rootWtcFiles() {
-        return root.resolve(WTC_FOLDER).toFile().listFiles();
+        return root.resolve(JLTK_FOLDER).toFile().listFiles();
     }
 
     void wipeRoot() {
@@ -110,7 +110,6 @@ public class TestFolder {
         recursivelyWipe(directoryToBeDeleted);
         directoryToBeDeleted.delete();
     }
-
 
     private void recursivelyWipe(File directoryToBeDeleted) {
         File[] allContents = directoryToBeDeleted.listFiles();

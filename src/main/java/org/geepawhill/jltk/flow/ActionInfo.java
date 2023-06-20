@@ -10,8 +10,8 @@ import java.util.*;
 import static java.util.Collections.*;
 
 public class ActionInfo {
-    public static final String WTC_FOLDER = ".wtc";
-    public static final String WTC_KEYFILE = "wtc.key";
+    public static final String JLTK_FOLDER = ".jltk";
+    public static final String JLTK_KEY = "jltk.key";
 
     public Path root;
     public Path home;
@@ -62,11 +62,11 @@ public class ActionInfo {
     }
 
     Path homeWtc() {
-        return home.resolve(WTC_FOLDER);
+        return home.resolve(JLTK_FOLDER);
     }
 
     Path rootWtc() {
-        return root.resolve(WTC_FOLDER);
+        return root.resolve(JLTK_FOLDER);
     }
 
     static String fileTimeFrom(LocalDateTime time) {

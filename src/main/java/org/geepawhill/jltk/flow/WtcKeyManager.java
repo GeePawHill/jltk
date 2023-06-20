@@ -14,8 +14,8 @@ public class WtcKeyManager {
     WtcKeyManager(Path root, Path home) {
         this.root = root;
         this.home = home;
-        this.localWtc = root.resolve(ActionInfo.WTC_FOLDER);
-        this.localKey = localWtc.resolve(ActionInfo.WTC_KEYFILE);
+        this.localWtc = root.resolve(ActionInfo.JLTK_FOLDER);
+        this.localKey = localWtc.resolve(ActionInfo.JLTK_KEY);
     }
 
     public String findOrMakeKey() {
@@ -38,7 +38,7 @@ public class WtcKeyManager {
 
     private void makeHomeKey(String key) throws IOException {
         Path homeKey = home.resolve(
-                Path.of(ActionInfo.WTC_FOLDER, key)
+                Path.of(ActionInfo.JLTK_FOLDER, key)
         );
         Files.createDirectories(homeKey);
     }
