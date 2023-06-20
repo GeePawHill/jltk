@@ -6,15 +6,14 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class WtcRecorder {
+public class Recorder {
     private GitInfo gitInfo;
 
-    public WtcRecorder(GitInfo gitInfo) {
-        // change to force commit.
+    public Recorder(GitInfo gitInfo) {
         this.gitInfo = gitInfo;
     }
 
-    public WtcRecorder() {
+    public Recorder() {
         this(new GitInfo());
     }
 

@@ -48,7 +48,7 @@ public class WtcJunitExtension implements TestWatcher, BeforeAllCallback, AfterA
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
     }
 
-    static WtcRecorder recorder = new WtcRecorder();
+    static Recorder recorder = new Recorder();
     static List<String> passes = new ArrayList<>();
     static List<String> fails = new ArrayList<>();
     static List<String> disables = new ArrayList<>();

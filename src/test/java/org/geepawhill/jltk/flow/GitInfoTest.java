@@ -12,6 +12,7 @@ public class GitInfoTest {
     @Test
     void literalConstructor() {
         GitInfo info = new GitInfo(GitInfo.home(), Path.of("."), "branch", "committer", "email");
+        // assumption: the working folder is the root of the git repo.
         assertEquals(Path.of("."), info.root);
         assertEquals("branch", info.branch);
         assertEquals("committer", info.username);
@@ -39,7 +40,7 @@ public class GitInfoTest {
     void knowsRepoFolder() {
         GitInfo info = new GitInfo();
         String expected = Path.of(".").toAbsolutePath().normalize().toString();
-        assertEquals(expected, info.root.toAbsolutePath().toString());
+        assertEquals(expected, info.root.toAbsolutePath().normalize().toString());
     }
 
     @Test
