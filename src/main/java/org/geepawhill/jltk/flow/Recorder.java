@@ -69,7 +69,7 @@ public class Recorder {
     String makeRunYaml(ActionInfo info) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("branch", info.branch);
-        map.put("committer", info.committer);
+        map.put("committer", info.username);
         map.put("email", info.email);
         map.put("type", "run");
         map.put("timestamp", info.timestamp);
@@ -88,7 +88,7 @@ public class Recorder {
     private String makeTestYaml(ActionInfo info, List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("branch", info.branch);
-        map.put("committer", info.committer);
+        map.put("committer", info.username);
         map.put("email", info.email);
         map.put("type", "test");
         map.put("timestamp", info.timestamp);
