@@ -8,15 +8,15 @@ import java.util.*;
 
 public class Recorder {
     private final GitInfo gitInfo;
-    private final Path home;
+    private final Path logPath;
 
     public Recorder(GitInfo gitInfo, Path home) {
         this.gitInfo = gitInfo;
-        this.home = home;
+        this.logPath = gitInfo.computeLogPathFor(home);
     }
 
     public Recorder() {
-        this(new GitInfo(), deduceUserHome());
+        this(new GitInfo(), computeUserHome());
     }
 
     public void run() {
@@ -45,11 +45,10 @@ public class Recorder {
         }
     }
 
-
     private void appendToLogFile(ActionInfo action, String yaml) throws IOException {
         PrintWriter log = new PrintWriter(
                 Files.newBufferedWriter(
-                        computeLogPathFor(action),
+                        logPath,
                         StandardOpenOption.WRITE,
                         StandardOpenOption.APPEND,
                         StandardOpenOption.CREATE)
@@ -57,15 +56,6 @@ public class Recorder {
         log.println(yaml);
         log.flush();
         log.close();
-    }
-
-    private Path computeLogPathFor(ActionInfo action) throws IOException {
-        String key = findOrMakeKey(action.root, home);
-        String shortEmail = action.email.split("@")[0];
-        String leafName = action.branch
-                + "_" + shortEmail
-                + ".wtc";
-        return home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
     }
 
     String makeRunYaml(ActionInfo info) {
@@ -101,15 +91,10 @@ public class Recorder {
         return dumpMap(map);
     }
 
-    public String findOrMakeKey(Path root, Path home) {
-        WtcKeyManager manager = new WtcKeyManager(root, home);
-        return manager.findOrMakeKey();
-    }
-
     /**
      * @return the Path object representing the user's home folder.
      */
-    static Path deduceUserHome() {
+    static Path computeUserHome() {
         return Path.of(System.getProperty("user.home"));
     }
 }

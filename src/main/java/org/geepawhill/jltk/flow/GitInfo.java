@@ -69,10 +69,13 @@ public class GitInfo {
         this(System.getProperty("user.dir"));
     }
 
-    /**
-     * @return the Path object representing the user's home folder.
-     */
-    static Path home() {
-        return Path.of(System.getProperty("user.home"));
+    public Path computeLogPathFor(Path home) {
+        WtcKeyManager manager = new WtcKeyManager(root, home);
+        String key = manager.findOrMakeKey();
+        String shortEmail = email.split("@")[0];
+        String leafName = branch
+                + "_" + shortEmail
+                + ".wtc";
+        return home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
     }
 }
