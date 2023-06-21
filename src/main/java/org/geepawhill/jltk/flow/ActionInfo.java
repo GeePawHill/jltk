@@ -9,7 +9,7 @@ import java.util.*;
 
 import static java.util.Collections.*;
 
-public class ActionInfo {
+public class ActionInfo implements MapAppender {
     public static final String JLTK_FOLDER = ".jltk";
     public static final String JLTK_KEY = "jltk.key";
 
@@ -138,5 +138,17 @@ public class ActionInfo {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         return yaml.dump(map);
+    }
+
+    @Override
+    public void putTo(YamlMap map) {
+        map.put("type", type);
+        map.put("timestamp", timestamp);
+        if (type == "test") {
+            map.put("passes", passes);
+            map.put("fails", fails);
+            map.put("disables", disables);
+            map.put("aborts", aborts);
+        }
     }
 }

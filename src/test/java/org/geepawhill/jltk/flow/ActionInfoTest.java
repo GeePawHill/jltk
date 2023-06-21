@@ -68,7 +68,10 @@ public class ActionInfoTest {
         List<String> disables = Collections.singletonList("disable");
         List<String> aborts = Collections.singletonList("abort");
         ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
-        String infoAsYaml = info.toYaml();
+        YamlMap map = new YamlMap();
+        info.putTo(map);
+        String infoAsYaml = map.asString();
+        
         Yaml yaml = new Yaml();
         Map<String, Object> actual = yaml.load(infoAsYaml);
 

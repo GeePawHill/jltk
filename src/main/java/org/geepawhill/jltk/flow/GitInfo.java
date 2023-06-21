@@ -4,7 +4,7 @@ import org.eclipse.jgit.lib.*;
 
 import java.nio.file.*;
 
-public class GitInfo {
+public class GitInfo implements MapAppender {
     /**
      * The root folder of the current repo.
      */
@@ -77,5 +77,12 @@ public class GitInfo {
                 + "_" + shortEmail
                 + ".wtc";
         return home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
+    }
+
+    @Override
+    public void putTo(YamlMap map) {
+        map.put("branch", branch);
+        map.put("committer", username);
+        map.put("email", email);
     }
 }
