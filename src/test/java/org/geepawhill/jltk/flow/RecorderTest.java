@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RecorderTest {
 
     TestFolder folder = new TestFolder();
-    GitInfo info = new GitInfo(folder.home, folder.root, "branch", "committer", "email@somewhere.com");
+    GitInfo info = new GitInfo(folder.root, "branch", "committer", "email@somewhere.com");
 
     @Test
     void roundTripWithKey() {
         folder.writeExistingKey("12345");
-        Recorder first = new Recorder(info);
+        Recorder first = new Recorder(info, folder.home);
         first.run();
         String firstKey = folder.readRootWtcKey();
-        Recorder second = new Recorder(info);
+        Recorder second = new Recorder(info, folder.home);
         second.tests(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
         String secondKey = folder.readRootWtcKey();
         roundTripIsCorrect(firstKey, secondKey);
@@ -28,10 +28,10 @@ public class RecorderTest {
     void roundTripWithNoKey() {
         folder.wipeRoot();
         folder.wipeHome();
-        Recorder first = new Recorder(info);
+        Recorder first = new Recorder(info, folder.home);
         first.run();
         String firstKey = folder.readRootWtcKey();
-        Recorder second = new Recorder(info);
+        Recorder second = new Recorder(info, folder.home);
         second.tests(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
         String secondKey = folder.readRootWtcKey();
         roundTripIsCorrect(firstKey, secondKey);

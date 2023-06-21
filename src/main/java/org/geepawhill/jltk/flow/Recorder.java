@@ -7,14 +7,16 @@ import java.nio.file.*;
 import java.util.*;
 
 public class Recorder {
-    private GitInfo gitInfo;
+    private final GitInfo gitInfo;
+    private final Path home;
 
-    public Recorder(GitInfo gitInfo) {
+    public Recorder(GitInfo gitInfo, Path home) {
         this.gitInfo = gitInfo;
+        this.home = home;
     }
 
     public Recorder() {
-        this(new GitInfo());
+        this(new GitInfo(), deduceUserHome());
     }
 
     public void run() {
@@ -44,10 +46,10 @@ public class Recorder {
     }
 
 
-    private void appendToLogFile(ActionInfo committer, String yaml) throws IOException {
+    private void appendToLogFile(ActionInfo action, String yaml) throws IOException {
         PrintWriter log = new PrintWriter(
                 Files.newBufferedWriter(
-                        computeLogPathFor(committer),
+                        computeLogPathFor(action),
                         StandardOpenOption.WRITE,
                         StandardOpenOption.APPEND,
                         StandardOpenOption.CREATE)
@@ -57,13 +59,13 @@ public class Recorder {
         log.close();
     }
 
-    private Path computeLogPathFor(ActionInfo committer) throws IOException {
-        String key = findOrMakeKey(committer.root, committer.home);
-        String shortEmail = committer.email.split("@")[0];
-        String leafName = committer.branch
+    private Path computeLogPathFor(ActionInfo action) throws IOException {
+        String key = findOrMakeKey(action.root, home);
+        String shortEmail = action.email.split("@")[0];
+        String leafName = action.branch
                 + "_" + shortEmail
                 + ".wtc";
-        return committer.home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
+        return home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
     }
 
     String makeRunYaml(ActionInfo info) {
@@ -102,5 +104,12 @@ public class Recorder {
     public String findOrMakeKey(Path root, Path home) {
         WtcKeyManager manager = new WtcKeyManager(root, home);
         return manager.findOrMakeKey();
+    }
+
+    /**
+     * @return the Path object representing the user's home folder.
+     */
+    static Path deduceUserHome() {
+        return Path.of(System.getProperty("user.home"));
     }
 }

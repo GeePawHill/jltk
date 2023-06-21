@@ -11,7 +11,7 @@ public class GitInfoTest {
 
     @Test
     void literalConstructor() {
-        GitInfo info = new GitInfo(GitInfo.home(), Path.of("."), "branch", "committer", "email");
+        GitInfo info = new GitInfo(Path.of("."), "branch", "committer", "email");
         // assumption: the working folder is the root of the git repo.
         assertEquals(Path.of("."), info.root);
         assertEquals("branch", info.branch);
@@ -42,12 +42,4 @@ public class GitInfoTest {
         String expected = Path.of(".").toAbsolutePath().normalize().toString();
         assertEquals(expected, info.root.toAbsolutePath().normalize().toString());
     }
-
-    @Test
-    void knowsHomeFolder() {
-        GitInfo info = new GitInfo();
-        String expected = Path.of(System.getProperty("user.home")).toAbsolutePath().normalize().toString();
-        assertEquals(expected, info.home.toAbsolutePath().normalize().toString());
-    }
-
 }

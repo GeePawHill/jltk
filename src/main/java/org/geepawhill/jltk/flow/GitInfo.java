@@ -6,11 +6,6 @@ import java.nio.file.*;
 
 public class GitInfo {
     /**
-     * The home folder of the current user.
-     */
-    public final Path home;
-
-    /**
      * The root folder of the current repo.
      */
     public final Path root;
@@ -33,8 +28,7 @@ public class GitInfo {
     /**
      * The primitive "all fields" constructor, used only for testing.
      */
-    GitInfo(Path home, Path root, String branch, String username, String email) {
-        this.home = home;
+    GitInfo(Path root, String branch, String username, String email) {
         this.root = root;
         this.branch = branch;
         this.username = username;
@@ -49,7 +43,6 @@ public class GitInfo {
     GitInfo(Path root) {
         try (Repository localRepo = new RepositoryBuilder()
                 .findGitDir(root.toFile()).build()) {
-            this.home = home();
             this.root = localRepo.getWorkTree().toPath();
             Config configuration = localRepo.getConfig();
             email = configuration.getString("user", null, "email");

@@ -59,8 +59,6 @@ public class ActionInfoTest {
         ActionInfo info = new ActionInfo(new GitInfo(), "run");
         String expectedRootJltk = Path.of(JLTK_FOLDER).toFile().getCanonicalPath();
         assertEquals(expectedRootJltk, info.rootJltk().toFile().getCanonicalPath());
-        String expectedHomeJltk = Path.of(System.getProperty("user.home"), JLTK_FOLDER).toFile().getCanonicalPath();
-        assertEquals(expectedHomeJltk, info.homeJltk().toFile().getCanonicalPath());
     }
 
     @Test

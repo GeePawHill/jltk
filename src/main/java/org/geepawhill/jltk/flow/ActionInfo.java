@@ -14,7 +14,6 @@ public class ActionInfo {
     public static final String JLTK_KEY = "jltk.key";
 
     public final Path root;
-    public final Path home;
     public final String type;
     public final String email;
     public final String username;
@@ -45,7 +44,6 @@ public class ActionInfo {
                       List<String> disables,
                       List<String> aborts
     ) {
-        this.home = git.home;
         this.root = git.root;
         this.branch = git.branch;
         this.username = git.username;
@@ -85,10 +83,6 @@ public class ActionInfo {
 
     ActionInfo(GitInfo gitInfo, List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
         this(gitInfo, "test", LocalDateTime.now(), passes, fails, disables, aborts);
-    }
-
-    Path homeJltk() {
-        return home.resolve(JLTK_FOLDER);
     }
 
     Path rootJltk() {
