@@ -45,9 +45,9 @@ public class RecorderTest {
         assertEquals(2, lines.size());
         String runResult = new String(Base64.getDecoder().decode(lines.get(0)));
         String[] runResultLines = runResult.split("\n");
-        assertEquals(runResultLines[4], "type: run");
+        assertEquals(runResultLines[5], "type: run");
         String testResult = new String(Base64.getDecoder().decode(lines.get(1)));
         String[] testResultLines = testResult.split("\n");
-        assertEquals(testResultLines[4], "type: test");
+        assertEquals(testResultLines[5], "type: test");
     }
 }

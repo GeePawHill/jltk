@@ -3,13 +3,8 @@ package org.geepawhill.jltk.flow;
 import org.junit.jupiter.api.*;
 import org.yaml.snakeyaml.*;
 
-import java.io.*;
-import java.nio.file.*;
-import java.time.*;
 import java.util.*;
 
-import static java.util.Collections.*;
-import static org.geepawhill.jltk.flow.ActionInfo.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ActionInfoTest {
@@ -22,22 +17,6 @@ public class ActionInfoTest {
         assertTrue(info.fails.isEmpty());
         assertTrue(info.disables.isEmpty());
         assertTrue(info.aborts.isEmpty());
-    }
-
-    @Test
-    void timestampConstructorWorks() {
-        LocalDateTime time = LocalDateTime.of(2020, Month.JANUARY, 2, 12, 13, 14, 15);
-        ActionInfo info = new ActionInfo(
-                new GitInfo(),
-                "test",
-                time,
-                emptyList(),
-                emptyList(),
-                emptyList(),
-                emptyList()
-        );
-        assertEquals("20200102121314", info.filetime);
-        assertEquals("2020-01-02T12:13:14", info.timestamp);
     }
 
     @Test
@@ -55,13 +34,6 @@ public class ActionInfoTest {
     }
 
     @Test
-    void knowsFolders() throws IOException {
-        ActionInfo info = new ActionInfo(new GitInfo(), "run");
-        String expectedRootJltk = Path.of(JLTK_FOLDER).toFile().getCanonicalPath();
-        assertEquals(expectedRootJltk, info.rootJltk().toFile().getCanonicalPath());
-    }
-
-    @Test
     void yamlRoundtrip() {
         List<String> passes = Collections.singletonList("pass");
         List<String> fails = Collections.singletonList("fail");
@@ -71,7 +43,7 @@ public class ActionInfoTest {
         YamlMap map = new YamlMap();
         info.putTo(map);
         String infoAsYaml = map.asString();
-        
+
         Yaml yaml = new Yaml();
         Map<String, Object> actual = yaml.load(infoAsYaml);
 

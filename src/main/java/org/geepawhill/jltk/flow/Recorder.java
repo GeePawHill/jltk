@@ -18,8 +18,9 @@ public class Recorder {
     }
 
     public void run() {
+        TimestampAppender timestamp = new TimestampAppender();
         ActionInfo action = new ActionInfo(gitInfo, "run");
-        writeToLog(gitInfo, action);
+        writeToLog(gitInfo, timestamp, action);
     }
 
     public void writeToLog(MapAppender... appenders) {
@@ -37,8 +38,9 @@ public class Recorder {
     }
 
     public void tests(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
+        TimestampAppender timestamp = new TimestampAppender();
         ActionInfo action = new ActionInfo(gitInfo, passes, fails, disables, aborts);
-        writeToLog(gitInfo, action);
+        writeToLog(gitInfo, timestamp, action);
     }
 
     private void appendToLogFile(String yaml) throws IOException {
