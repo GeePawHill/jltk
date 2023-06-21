@@ -19,7 +19,7 @@ public class Recorder {
 
     public void run() {
         TimestampAppender timestamp = new TimestampAppender();
-        ActionInfo action = new ActionInfo(gitInfo, "run");
+        ActionInfo action = new ActionInfo("run");
         writeToLog(gitInfo, timestamp, action);
     }
 
@@ -39,7 +39,7 @@ public class Recorder {
 
     public void tests(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
         TimestampAppender timestamp = new TimestampAppender();
-        ActionInfo action = new ActionInfo(gitInfo, passes, fails, disables, aborts);
+        ActionInfo action = new ActionInfo("test", passes, fails, disables, aborts);
         writeToLog(gitInfo, timestamp, action);
     }
 

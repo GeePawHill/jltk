@@ -11,7 +11,7 @@ public class ActionInfoTest {
 
     @Test
     void gitInfoAndTypeConstructorWorks() {
-        ActionInfo info = new ActionInfo(new GitInfo(), "run");
+        ActionInfo info = new ActionInfo("run");
         assertEquals(info.type, "run");
         assertTrue(info.passes.isEmpty());
         assertTrue(info.fails.isEmpty());
@@ -25,7 +25,7 @@ public class ActionInfoTest {
         List<String> fails = Collections.singletonList("fail");
         List<String> disables = Collections.singletonList("disable");
         List<String> aborts = Collections.singletonList("abort");
-        ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
+        ActionInfo info = new ActionInfo("test", passes, fails, disables, aborts);
         assertEquals(info.type, "test");
         assertTrue(info.passes.contains("pass"));
         assertTrue(info.fails.contains("fail"));
@@ -39,7 +39,7 @@ public class ActionInfoTest {
         List<String> fails = Collections.singletonList("fail");
         List<String> disables = Collections.singletonList("disable");
         List<String> aborts = Collections.singletonList("abort");
-        ActionInfo info = new ActionInfo(new GitInfo(), passes, fails, disables, aborts);
+        ActionInfo info = new ActionInfo("test", passes, fails, disables, aborts);
         YamlMap map = new YamlMap();
         info.putTo(map);
         String infoAsYaml = map.asString();

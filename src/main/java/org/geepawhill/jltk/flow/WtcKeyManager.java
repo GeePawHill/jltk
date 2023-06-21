@@ -3,6 +3,7 @@ package org.geepawhill.jltk.flow;
 import java.io.*;
 import java.nio.file.*;
 import java.time.*;
+import java.time.format.*;
 
 public class WtcKeyManager {
 
@@ -31,7 +32,7 @@ public class WtcKeyManager {
 
     public void makeLocalKey() throws IOException {
         Files.createDirectories(localWtc);
-        String key = ActionInfo.fileTimeFrom(LocalDateTime.now());
+        String key = fileTimeFrom(LocalDateTime.now());
         Files.createFile(localKey);
         Files.writeString(localKey, key);
     }
@@ -42,4 +43,17 @@ public class WtcKeyManager {
         );
         Files.createDirectories(homeKey);
     }
+
+    /**
+     * Convert a LocalDateTime into a string of the form YYYYMMDDHHMMSS
+     *
+     * @param time
+     * @return
+     */
+    static String fileTimeFrom(LocalDateTime time) {
+        return time.format(filetimeFormatter);
+    }
+
+    static DateTimeFormatter filetimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddkkmmss");
+
 }
