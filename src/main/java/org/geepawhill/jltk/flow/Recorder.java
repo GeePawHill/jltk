@@ -17,8 +17,14 @@ public class Recorder {
         this(new GitInfo(), computeUserHome());
     }
 
-    public void run() {
+    public void logRun() {
         writeToLog(gitInfo, new TimestampAppender(), new RunAppender());
+    }
+
+    public void logTest(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
+        TimestampAppender timestamp = new TimestampAppender();
+        TestAppender action = new TestAppender("test", passes, fails, disables, aborts);
+        writeToLog(gitInfo, timestamp, action);
     }
 
     public void writeToLog(MapAppender... appenders) {
@@ -35,11 +41,6 @@ public class Recorder {
         }
     }
 
-    public void tests(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
-        TimestampAppender timestamp = new TimestampAppender();
-        TestAppender action = new TestAppender("test", passes, fails, disables, aborts);
-        writeToLog(gitInfo, timestamp, action);
-    }
 
     private void appendToLogFile(String yaml) throws IOException {
         PrintWriter log = new PrintWriter(

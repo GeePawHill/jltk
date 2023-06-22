@@ -58,7 +58,7 @@ public class WtcJunitExtension implements TestWatcher, BeforeAllCallback, AfterA
         @Override
         public void run() {
             System.out.println("Shutdown");
-            recorder.tests(passes, fails, disables, aborts);
+            recorder.logTest(passes, fails, disables, aborts);
         }
     };
     static Thread hook = new Thread(runnable);

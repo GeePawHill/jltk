@@ -16,10 +16,10 @@ public class RecorderTest {
     void roundTripWithKey() {
         folder.writeExistingKey("12345");
         Recorder first = new Recorder(info, folder.home);
-        first.run();
+        first.logRun();
         String firstKey = folder.readRootWtcKey();
         Recorder second = new Recorder(info, folder.home);
-        second.tests(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
+        second.logTest(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
         String secondKey = folder.readRootWtcKey();
         roundTripIsCorrect(firstKey, secondKey);
     }
@@ -29,10 +29,10 @@ public class RecorderTest {
         folder.wipeRoot();
         folder.wipeHome();
         Recorder first = new Recorder(info, folder.home);
-        first.run();
+        first.logRun();
         String firstKey = folder.readRootWtcKey();
         Recorder second = new Recorder(info, folder.home);
-        second.tests(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
+        second.logTest(singletonList("passed"), singletonList("failed"), singletonList("disabled"), singletonList("aborted"));
         String secondKey = folder.readRootWtcKey();
         roundTripIsCorrect(firstKey, secondKey);
     }
