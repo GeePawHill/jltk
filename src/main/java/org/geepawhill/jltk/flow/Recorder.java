@@ -18,9 +18,7 @@ public class Recorder {
     }
 
     public void run() {
-        TimestampAppender timestamp = new TimestampAppender();
-        ActionInfo action = new ActionInfo("run");
-        writeToLog(gitInfo, timestamp, action);
+        writeToLog(gitInfo, new TimestampAppender(), new RunAppender());
     }
 
     public void writeToLog(MapAppender... appenders) {
@@ -39,7 +37,7 @@ public class Recorder {
 
     public void tests(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
         TimestampAppender timestamp = new TimestampAppender();
-        ActionInfo action = new ActionInfo("test", passes, fails, disables, aborts);
+        TestAppender action = new TestAppender("test", passes, fails, disables, aborts);
         writeToLog(gitInfo, timestamp, action);
     }
 

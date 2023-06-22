@@ -5,18 +5,18 @@ import java.nio.file.*;
 import java.time.*;
 import java.time.format.*;
 
-public class WtcKeyManager {
+public class KeySource {
 
     final public Path root;
     final public Path home;
     final public Path localWtc;
     final public Path localKey;
 
-    WtcKeyManager(Path root, Path home) {
+    KeySource(Path root, Path home) {
         this.root = root;
         this.home = home;
-        this.localWtc = root.resolve(ActionInfo.JLTK_FOLDER);
-        this.localKey = localWtc.resolve(ActionInfo.JLTK_KEY);
+        this.localWtc = root.resolve(TestAppender.JLTK_FOLDER);
+        this.localKey = localWtc.resolve(TestAppender.JLTK_KEY);
     }
 
     public String findOrMakeKey() {
@@ -39,7 +39,7 @@ public class WtcKeyManager {
 
     private void makeHomeKey(String key) throws IOException {
         Path homeKey = home.resolve(
-                Path.of(ActionInfo.JLTK_FOLDER, key)
+                Path.of(TestAppender.JLTK_FOLDER, key)
         );
         Files.createDirectories(homeKey);
     }

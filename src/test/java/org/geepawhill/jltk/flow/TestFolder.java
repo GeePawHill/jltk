@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-import static org.geepawhill.jltk.flow.ActionInfo.*;
+import static org.geepawhill.jltk.flow.TestAppender.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFolder {

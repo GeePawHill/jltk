@@ -70,13 +70,13 @@ public class GitInfo implements MapAppender {
     }
 
     public Path computeLogPathFor(Path home) {
-        WtcKeyManager manager = new WtcKeyManager(root, home);
+        KeySource manager = new KeySource(root, home);
         String key = manager.findOrMakeKey();
         String shortEmail = email.split("@")[0];
         String leafName = branch
                 + "_" + shortEmail
                 + ".wtc";
-        return home.resolve(Path.of(ActionInfo.JLTK_FOLDER, key, leafName));
+        return home.resolve(Path.of(TestAppender.JLTK_FOLDER, key, leafName));
     }
 
     @Override

@@ -2,9 +2,7 @@ package org.geepawhill.jltk.flow;
 
 import java.util.*;
 
-import static java.util.Collections.*;
-
-public class ActionInfo implements MapAppender {
+public class TestAppender implements MapAppender {
     public static final String JLTK_FOLDER = ".jltk";
     public static final String JLTK_KEY = "jltk.key";
 
@@ -21,11 +19,11 @@ public class ActionInfo implements MapAppender {
      * @param disables -- list of class.test strings for disabled tests
      * @param aborts   -- list of class.test strings aborted tests
      */
-    public ActionInfo(String type,
-                      List<String> passes,
-                      List<String> fails,
-                      List<String> disables,
-                      List<String> aborts
+    public TestAppender(String type,
+                        List<String> passes,
+                        List<String> fails,
+                        List<String> disables,
+                        List<String> aborts
     ) {
         this.type = type;
         this.passes.addAll(passes);
@@ -33,16 +31,6 @@ public class ActionInfo implements MapAppender {
         this.disables.addAll(disables);
         this.aborts.addAll(aborts);
     }
-
-    /**
-     * Primary constructor for simple actions w/no subdata other than type.
-     *
-     * @param type -- string identifying what type of action this is
-     */
-    ActionInfo(String type) {
-        this(type, emptyList(), emptyList(), emptyList(), emptyList());
-    }
-
 
     @Override
     public void putTo(YamlMap map) {

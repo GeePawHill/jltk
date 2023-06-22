@@ -6,7 +6,7 @@ import java.nio.file.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WtcKeyManagerTest {
+public class KeySourceTest {
     public static final Path TEST_WORKING_FOLDER = Path.of("src", "bash");
     public static final String TEST_ROOT_FOLDER = "../../testFolder/root";
     public static final String TEST_HOME_FOLDER = "../../testFolder/home";
@@ -16,7 +16,7 @@ public class WtcKeyManagerTest {
     @Test
     void findsExistingKey() {
         folder.writeExistingKey("12345");
-        WtcKeyManager manager = new WtcKeyManager(folder.root, folder.home);
+        KeySource manager = new KeySource(folder.root, folder.home);
         assertEquals("12345", manager.findOrMakeKey());
         folder.assertRootFiles();
         String key = folder.readRootWtcKey();
@@ -25,7 +25,7 @@ public class WtcKeyManagerTest {
 
     @Test
     void makesNonExistingKey() {
-        WtcKeyManager manager = new WtcKeyManager(folder.root, folder.home);
+        KeySource manager = new KeySource(folder.root, folder.home);
         manager.findOrMakeKey();
         folder.assertRootFiles();
         String key = folder.readRootWtcKey();
