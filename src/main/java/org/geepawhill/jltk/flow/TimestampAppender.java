@@ -28,6 +28,4 @@ public class TimestampAppender implements MapAppender {
     static String timestampFrom(LocalDateTime time) {
         return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).split("\\.")[0];
     }
-
-    static DateTimeFormatter filetimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddkkmmss");
 }
