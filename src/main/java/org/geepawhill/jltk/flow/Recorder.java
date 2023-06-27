@@ -22,9 +22,13 @@ public class Recorder {
     }
 
     public void logTest(List<String> passes, List<String> fails, List<String> disables, List<String> aborts) {
-        TimestampAppender timestamp = new TimestampAppender();
-        TestAppender action = new TestAppender("test", passes, fails, disables, aborts);
-        writeToLog(gitInfo, timestamp, action);
+        writeToLog(gitInfo,
+                new TimestampAppender(),
+                new TestAppender("test", passes, fails, disables, aborts));
+    }
+
+    public void logCommit() {
+        writeToLog(gitInfo, new TimestampAppender(), new CommitAppender());
     }
 
     public void writeToLog(MapAppender... appenders) {

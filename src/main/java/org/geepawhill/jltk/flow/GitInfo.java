@@ -1,8 +1,11 @@
 package org.geepawhill.jltk.flow;
 
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.revwalk.*;
 
 import java.nio.file.*;
+import java.util.*;
 
 public class GitInfo implements MapAppender {
     /**
@@ -26,13 +29,19 @@ public class GitInfo implements MapAppender {
     public final String email;
 
     /**
+     * The repo's last commit hashtag
+     */
+    public final String last;
+
+    /**
      * The primitive "all fields" constructor, used only for testing.
      */
-    GitInfo(Path root, String branch, String username, String email) {
+    GitInfo(Path root, String branch, String username, String email, String last) {
         this.root = root;
         this.branch = branch;
         this.username = username;
         this.email = email;
+        this.last = last;
     }
 
     /**
@@ -43,6 +52,7 @@ public class GitInfo implements MapAppender {
     GitInfo(Path root) {
         try (Repository localRepo = new RepositoryBuilder()
                 .findGitDir(root.toFile()).build()) {
+            this.last = computeLastCommitHash(localRepo);
             this.root = localRepo.getWorkTree().toPath();
             Config configuration = localRepo.getConfig();
             email = configuration.getString("user", null, "email");
@@ -84,5 +94,16 @@ public class GitInfo implements MapAppender {
         map.put("branch", branch);
         map.put("committer", username);
         map.put("email", email);
+    }
+
+    private String computeLastCommitHash(Repository localRepo) {
+        try {
+            Git git = new Git(localRepo);
+            ObjectId branchId = localRepo.resolve("HEAD");
+            Iterator<RevCommit> commits = git.log().add(branchId).call().iterator();
+            if (commits.hasNext()) return commits.next().getName();
+        } catch (Exception ignored) {
+        }
+        return "Unknown";
     }
 }

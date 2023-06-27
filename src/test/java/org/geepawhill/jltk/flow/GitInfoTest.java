@@ -11,12 +11,13 @@ public class GitInfoTest {
 
     @Test
     void literalConstructor() {
-        GitInfo info = new GitInfo(Path.of("."), "branch", "committer", "email");
+        GitInfo info = new GitInfo(Path.of("."), "branch", "committer", "email", "last");
         // assumption: the working folder is the root of the git repo.
         assertEquals(Path.of("."), info.root);
         assertEquals("branch", info.branch);
         assertEquals("committer", info.username);
         assertEquals("email", info.email);
+        assertEquals("last", info.last);
     }
 
     @Test
