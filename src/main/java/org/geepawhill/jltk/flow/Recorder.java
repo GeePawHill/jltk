@@ -33,9 +33,18 @@ public class Recorder {
                 new TestAppender("test", passes, fails, disables, aborts));
     }
 
-    public void postCommit(Path home, Path root) {
+    public void logPostCommit() {
         writeToLog(gitInfo, new TimestampAppender(), new CommitAppender());
-        // determine name for destination
+        String repoLogname = computeRepoLogname();
+        Path destination = gitInfo.root.resolve(JLTK_FOLDER).resolve(repoLogname);
+        try {
+            Files.move(logPath, destination);
+        } catch (Exception output) {
+            output.printStackTrace(System.err);
+        }
+    }
+
+    private String computeRepoLogname() {
         DateTimeFormatter filetimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddkkmmss");
         String filestamp = LocalDateTime.now().format(filetimeFormatter);
         String shortEmail = gitInfo.email.split("@")[0];
@@ -43,12 +52,7 @@ public class Recorder {
                 + "_" + shortEmail
                 + "_" + filestamp +
                 ".jltk";
-        Path destination = gitInfo.root.resolve(JLTK_FOLDER).resolve(leafName);
-        try {
-            Files.copy(logPath, destination, StandardCopyOption.COPY_ATTRIBUTES);
-        } catch (Exception output) {
-            output.printStackTrace(System.err);
-        }
+        return leafName;
     }
 
     public void writeToLog(MapAppender... appenders) {

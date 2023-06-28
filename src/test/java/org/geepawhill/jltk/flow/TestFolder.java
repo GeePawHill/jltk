@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+import static java.util.Collections.*;
 import static org.geepawhill.jltk.flow.TestAppender.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,6 +58,12 @@ public class TestFolder {
         assertTrue(rootWtcKey.toFile().exists() && rootWtcKey.toFile().isFile(), "Missing root/.wtc/wtc.key file.");
     }
 
+    public File[] homeKeyFiles() {
+        String key = readRootWtcKey();
+        Path homeWtcKeyFolder = homeWtc.resolve(key.trim());
+        return homeWtcKeyFolder.toFile().listFiles();
+    }
+
     public String readRootWtcKey() {
         try {
             return Files.readString(rootWtcKey);
@@ -72,6 +79,7 @@ public class TestFolder {
         assertTrue(homeWtcKeyFolder.toFile().exists() && homeWtcKeyFolder.toFile().isDirectory());
     }
 
+
     void wipeHome() {
         recursivelyWipe(home.toFile());
     }
@@ -84,6 +92,19 @@ public class TestFolder {
         } catch (Exception wrapped) {
             throw new RuntimeException("Cannot read log.", wrapped);
         }
+    }
+
+    List<String> readSoloRootLogLines() {
+        try {
+            File[] candidates = rootWtcFiles();
+            for (File file : candidates) {
+                if (file.getName().endsWith(".jltk")) {
+                    return Files.readAllLines(file.toPath());
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return emptyList();
     }
 
     File[] homeWtcFiles() {

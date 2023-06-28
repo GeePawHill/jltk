@@ -157,29 +157,4 @@ public class ConsoleTesterTest {
                 }
         );
     }
-
-    @Disabled("Double-check JUnit output.")
-    @Test
-    void unsafeWrongExpectValue() {
-        new ConsoleTester()
-                .computerSays("Nope.")
-                .run(ConsoleSamples::helloWorld);
-    }
-
-    @Disabled("Double-check JUnit output.")
-    @Test
-    void unsafeUnderflowOnHuman() {
-        new ConsoleTester()
-                .humanSays("Nope.")
-                .run(ConsoleSamples::readTwoStrings);
-    }
-
-    @Disabled("Double-check JUnit output.")
-    @Test
-    void unsafeUnderflowOnComputer() {
-        new ConsoleTester()
-                .computerSays("First line.")
-                .run(ConsoleSamples::writeTwoLines);
-    }
-
 }
