@@ -60,4 +60,16 @@ public class TestFolder {
         if (result == null) return new File[0];
         return result;
     }
+
+    public File[] finalFiles() {
+        FilenameFilter filter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jltk");
+            }
+        };
+        File[] result = rootWtc.toFile().listFiles(filter);
+        if (result == null) return new File[0];
+        return result;
+    }
 }
