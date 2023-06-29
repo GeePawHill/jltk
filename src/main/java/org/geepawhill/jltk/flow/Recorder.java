@@ -11,16 +11,14 @@ import static org.geepawhill.jltk.flow.TestAppender.*;
 public class Recorder {
     private final GitInfo gitInfo;
     private final Path logPath;
-    private final Path home;
 
-    public Recorder(GitInfo gitInfo, Path home) {
+    public Recorder(GitInfo gitInfo) {
         this.gitInfo = gitInfo;
-        this.logPath = gitInfo.computeLogPathFor(home);
-        this.home = home;
+        this.logPath = gitInfo.computeTemporaryPath();
     }
 
     public Recorder() {
-        this(new GitInfo(), computeUserHome());
+        this(new GitInfo());
     }
 
     public void logRun() {
@@ -35,7 +33,7 @@ public class Recorder {
 
     public void logPostCommit() {
         writeToLog(gitInfo, new TimestampAppender(), new CommitAppender());
-        String repoLogname = computeRepoLogname();
+        String repoLogname = makeFinalLogName();
         Path destination = gitInfo.root.resolve(JLTK_FOLDER).resolve(repoLogname);
         try {
             Files.move(logPath, destination);
@@ -44,7 +42,7 @@ public class Recorder {
         }
     }
 
-    private String computeRepoLogname() {
+    private String makeFinalLogName() {
         DateTimeFormatter filetimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddkkmmss");
         String filestamp = LocalDateTime.now().format(filetimeFormatter);
         String shortEmail = gitInfo.email.split("@")[0];
@@ -57,6 +55,7 @@ public class Recorder {
 
     public void writeToLog(MapAppender... appenders) {
         try {
+            forceJltkFolder();
             YamlMap map = new YamlMap();
             map.append(appenders);
             String yaml = map.asString();
@@ -67,6 +66,10 @@ public class Recorder {
             e.printStackTrace();
             System.exit(-1);
         }
+    }
+
+    private void forceJltkFolder() throws IOException {
+        Files.createDirectories(gitInfo.root.resolve(JLTK_FOLDER));
     }
 
 

@@ -79,14 +79,12 @@ public class GitInfo implements MapAppender {
         this(System.getProperty("user.dir"));
     }
 
-    public Path computeLogPathFor(Path home) {
-        KeySource manager = new KeySource(root, home);
-        String key = manager.findOrMakeKey();
+    public Path computeTemporaryPath() {
         String shortEmail = email.split("@")[0];
         String leafName = branch
                 + "_" + shortEmail
-                + ".wtc";
-        return home.resolve(Path.of(TestAppender.JLTK_FOLDER, key, leafName));
+                + ".tmp";
+        return root.resolve(Path.of(TestAppender.JLTK_FOLDER, leafName));
     }
 
     @Override
