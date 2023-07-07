@@ -3,7 +3,6 @@ package org.geepawhill.jltk.flow;
 import java.io.*;
 import java.nio.file.*;
 
-import static org.geepawhill.jltk.flow.TestAppender.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFolder {
@@ -13,7 +12,7 @@ public class TestFolder {
 
     public TestFolder(Path root) {
         this.root = root;
-        this.rootWtc = root.resolve(JLTK_FOLDER);
+        this.rootWtc = root.resolve(FileHelpers.JLTK_FOLDER);
         try {
             wipeRoot();
             Files.createDirectories(root);
@@ -50,26 +49,10 @@ public class TestFolder {
     }
 
     public File[] temporaryFiles() {
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".tmp");
-            }
-        };
-        File[] result = rootWtc.toFile().listFiles(filter);
-        if (result == null) return new File[0];
-        return result;
+        return FileHelpers.temporaryFiles(root);
     }
 
     public File[] finalFiles() {
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".jltk");
-            }
-        };
-        File[] result = rootWtc.toFile().listFiles(filter);
-        if (result == null) return new File[0];
-        return result;
+        return FileHelpers.finalFiles(root);
     }
 }

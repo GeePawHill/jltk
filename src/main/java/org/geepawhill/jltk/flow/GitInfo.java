@@ -7,6 +7,8 @@ import org.eclipse.jgit.revwalk.*;
 import java.nio.file.*;
 import java.util.*;
 
+import static org.geepawhill.jltk.flow.FileHelpers.*;
+
 public class GitInfo implements MapAppender {
     /**
      * The root folder of the current repo.
@@ -83,8 +85,8 @@ public class GitInfo implements MapAppender {
         String shortEmail = email.split("@")[0];
         String leafName = branch
                 + "_" + shortEmail
-                + ".tmp";
-        return root.resolve(Path.of(TestAppender.JLTK_FOLDER, leafName));
+                + JLTK_TMP_SUFFIX;
+        return root.resolve(Path.of(FileHelpers.JLTK_FOLDER, leafName));
     }
 
     @Override

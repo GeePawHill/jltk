@@ -6,7 +6,7 @@ import java.time.*;
 import java.time.format.*;
 import java.util.*;
 
-import static org.geepawhill.jltk.flow.TestAppender.*;
+import static org.geepawhill.jltk.flow.FileHelpers.*;
 
 public class Recorder {
     private final GitInfo gitInfo;
@@ -34,7 +34,7 @@ public class Recorder {
     public void logPostCommit() {
         writeToLog(gitInfo, new TimestampAppender(), new CommitAppender());
         String repoLogname = makeFinalLogName();
-        Path destination = gitInfo.root.resolve(JLTK_FOLDER).resolve(repoLogname);
+        Path destination = gitInfo.root.resolve(FileHelpers.JLTK_FOLDER).resolve(repoLogname);
         try {
             Files.move(logPath, destination);
         } catch (Exception output) {
@@ -49,7 +49,7 @@ public class Recorder {
         String leafName = gitInfo.branch
                 + "_" + shortEmail
                 + "_" + filestamp +
-                ".jltk";
+                JLTK_LOG_SUFFIX;
         return leafName;
     }
 
@@ -69,7 +69,7 @@ public class Recorder {
     }
 
     private void forceJltkFolder() throws IOException {
-        Files.createDirectories(gitInfo.root.resolve(JLTK_FOLDER));
+        Files.createDirectories(gitInfo.root.resolve(FileHelpers.JLTK_FOLDER));
     }
 
 
@@ -84,12 +84,5 @@ public class Recorder {
         log.println(yaml);
         log.flush();
         log.close();
-    }
-
-    /**
-     * @return the Path object representing the user's home folder.
-     */
-    static Path computeUserHome() {
-        return Path.of(System.getProperty("user.home"));
     }
 }

@@ -3,8 +3,6 @@ package org.geepawhill.jltk.flow;
 import java.util.*;
 
 public class TestAppender implements MapAppender {
-    public static final String JLTK_FOLDER = ".jltk";
-    public static final String JLTK_KEY = "jltk.key";
 
     public final String type;
     public final List<String> passes = new ArrayList<>();

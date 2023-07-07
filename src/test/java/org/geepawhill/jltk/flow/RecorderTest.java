@@ -58,5 +58,6 @@ public class RecorderTest {
         String firstEntry = new String(Base64.getDecoder().decode(lines.get(0)));
         String[] firstYaml = firstEntry.split("\n");
         assertEquals(firstYaml[5], "type: commit");
+        assertFalse(folder.rootWtc.resolve("jltk.key").toFile().exists());
     }
 }
