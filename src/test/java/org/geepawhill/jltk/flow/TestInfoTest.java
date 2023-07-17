@@ -25,7 +25,9 @@ public class TestInfoTest {
 
     @Test
     void yamlRoundtrip() {
-        List<String> passes = Collections.singletonList("pass");
+        List<String> passes = new ArrayList<String>();
+        passes.add("pass1");
+        passes.add("pass2");
         List<String> fails = Collections.singletonList("fail");
         List<String> disables = Collections.singletonList("disable");
         List<String> aborts = Collections.singletonList("abort");
@@ -37,7 +39,8 @@ public class TestInfoTest {
         Yaml yaml = new Yaml();
         Map<String, Object> actual = yaml.load(infoAsYaml);
 
-        assertArrayContains(actual, "passes", "pass");
+        assertArrayContains(actual, "passes", "pass1");
+        assertArrayContains(actual, "passes", "pass2");
         assertArrayContains(actual, "fails", "fail");
         assertArrayContains(actual, "disables", "disable");
         assertArrayContains(actual, "aborts", "abort");
