@@ -1,5 +1,6 @@
 # cache folder for gradle
 .gradle
+.idea
 
 # output folder for gradle
 build
