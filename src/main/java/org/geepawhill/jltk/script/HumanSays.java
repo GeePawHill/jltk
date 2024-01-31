@@ -6,7 +6,7 @@ public class HumanSays implements ScriptAction {
     final ScriptLocation location;
     int current = 0;
 
-    HumanSays(String whatToSay) {
+    public HumanSays(String whatToSay) {
         this.location = new ScriptLocation();
         this.whatToSay = whatToSay;
     }

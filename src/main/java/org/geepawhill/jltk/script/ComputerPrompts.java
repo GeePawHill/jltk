@@ -7,7 +7,7 @@ public class ComputerPrompts implements ScriptAction {
     String accumulator = "";
     boolean sawAccumulator = false;
 
-    ComputerPrompts(String whatToExpect) {
+    public ComputerPrompts(String whatToExpect) {
         this.whatToExpect = whatToExpect;
         this.location = new ScriptLocation();
     }

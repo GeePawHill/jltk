@@ -6,7 +6,7 @@ public class ScriptOutputStream extends OutputStream {
 
     private final Script script;
 
-    ScriptOutputStream(Script script) {
+    public ScriptOutputStream(Script script) {
         this.script = script;
     }
 

@@ -6,7 +6,7 @@ public class Script {
     ArrayList<ScriptAction> actions = new ArrayList<>();
     int current = 0;
 
-    void add(ScriptAction action) {
+    public void add(ScriptAction action) {
         actions.add(action);
     }
 
