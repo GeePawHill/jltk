@@ -4,6 +4,8 @@ import za.co.wethinkcode.prompt.*;
 import za.co.wethinkcode.script.*;
 
 import java.io.*;
+import java.math.*;
+import java.util.*;
 
 public class TestingIo implements Io {
 
@@ -36,6 +38,31 @@ public class TestingIo implements Io {
     @Override
     public int anyInteger(String text) {
         return console.anyInteger(text);
+    }
+
+    @Override
+    public String anyString(String text) {
+        return console.anyString(text);
+    }
+
+    @Override
+    public double anyDouble(String text) {
+        return console.anyDouble(text);
+    }
+
+    @Override
+    public BigDecimal anyDecimal(String text) {
+        return console.anyDecimal(text);
+    }
+
+    @Override
+    public String nonEmpty(String text) {
+        return console.nonEmpty(text);
+    }
+
+    @Override
+    public List<Reply> manyIntegers(String text, int howMany) {
+        return console.manyIntegers(text, howMany);
     }
 
     public TestingIo humanSays(String line) {

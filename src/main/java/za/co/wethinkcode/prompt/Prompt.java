@@ -113,37 +113,4 @@ public class Prompt {
         prompt.run();
         return prompt.asInteger();
     }
-
-    public static String anyString(String text) {
-        Prompt prompt = new Prompt(text, new StringChecker());
-        prompt.run();
-        return prompt.asString();
-    }
-
-    public static double anyDouble(String text) {
-        Prompt prompt = new Prompt(text, new DoubleChecker());
-        prompt.run();
-        return prompt.asDouble();
-    }
-
-    public static BigDecimal anyDecimal(String text) {
-        Prompt prompt = new Prompt(text, new DecimalChecker());
-        prompt.run();
-        return prompt.asDecimal();
-    }
-
-    public static String nonEmpty(String text) {
-        Prompt prompt = new Prompt(text, new NonEmptyChecker());
-        prompt.run();
-        return prompt.asString();
-    }
-
-    public static List<Reply> manyIntegers(String text, int howMany) {
-        Checker[] checkers = new Checker[howMany];
-        for (int checker = 0; checker < howMany; checker++) checkers[checker] = new IntegerChecker();
-        Prompt prompt = new Prompt(text, new SeriesChecker("[\b,]", checkers));
-        prompt.run();
-        return prompt.replies;
-    }
-
 }

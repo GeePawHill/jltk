@@ -3,6 +3,8 @@ package za.co.wethinkcode.io;
 import za.co.wethinkcode.prompt.*;
 
 import java.io.*;
+import java.math.*;
+import java.util.*;
 
 public class StandardIo implements Io {
 
@@ -39,4 +41,42 @@ public class StandardIo implements Io {
         prompt.run();
         return prompt.asInteger();
     }
+
+    @Override
+    public String anyString(String text) {
+        Prompt prompt = prompt(text, new StringChecker());
+        prompt.run();
+        return prompt.asString();
+    }
+
+    @Override
+    public double anyDouble(String text) {
+        Prompt prompt = prompt(text, new DoubleChecker());
+        prompt.run();
+        return prompt.asDouble();
+    }
+
+    @Override
+    public BigDecimal anyDecimal(String text) {
+        Prompt prompt = prompt(text, new DecimalChecker());
+        prompt.run();
+        return prompt.asDecimal();
+    }
+
+    @Override
+    public String nonEmpty(String text) {
+        Prompt prompt = prompt(text, new NonEmptyChecker());
+        prompt.run();
+        return prompt.asString();
+    }
+
+    @Override
+    public List<Reply> manyIntegers(String text, int howMany) {
+        Checker[] checkers = new Checker[howMany];
+        for (int checker = 0; checker < howMany; checker++) checkers[checker] = new IntegerChecker();
+        Prompt prompt = prompt(text, new SeriesChecker("[\b,]", checkers));
+        prompt.run();
+        return prompt.asReplies();
+    }
+
 }
