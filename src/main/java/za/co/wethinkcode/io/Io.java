@@ -11,9 +11,11 @@ public interface Io {
      *
      * @param s
      */
-    void println(String s);
+    Io println(String s);
 
-    void print(String s);
+    Io println();
+
+    Io print(String s);
 
     /**
      * Advanced method to make a raw prompt, based in this instance of the Io class, that uses
