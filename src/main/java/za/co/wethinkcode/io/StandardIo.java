@@ -21,13 +21,15 @@ public class StandardIo implements Io {
     }
 
     @Override
-    public void println(String s) {
+    public Io println(String s) {
         out.println(s);
+        return this;
     }
 
     @Override
-    public void print(String s) {
+    public Io print(String s) {
         out.print(s);
+        return this;
     }
 
     @Override

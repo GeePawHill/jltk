@@ -21,13 +21,15 @@ public class TestingIo implements Io {
     }
 
     @Override
-    public void println(String s) {
+    public Io println(String s) {
         console.println(s);
+        return this;
     }
 
     @Override
-    public void print(String s) {
+    public Io print(String s) {
         console.print(s);
+        return this;
     }
 
     @Override
