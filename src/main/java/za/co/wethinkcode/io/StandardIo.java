@@ -27,6 +27,12 @@ public class StandardIo implements Io {
     }
 
     @Override
+    public Io println() {
+        out.println();
+        return this;
+    }
+
+    @Override
     public Io print(String s) {
         out.print(s);
         return this;

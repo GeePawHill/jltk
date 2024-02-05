@@ -27,6 +27,12 @@ public class TestingIo implements Io {
     }
 
     @Override
+    public Io println() {
+        console.println();
+        return this;
+    }
+
+    @Override
     public Io print(String s) {
         console.print(s);
         return this;

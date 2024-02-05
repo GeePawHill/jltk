@@ -13,6 +13,8 @@ public interface Io {
      */
     Io println(String s);
 
+    Io println();
+
     Io print(String s);
 
     /**
