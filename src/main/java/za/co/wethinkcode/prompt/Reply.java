@@ -25,4 +25,8 @@ public class Reply {
     BigDecimal asDecimal() {
         return new BigDecimal(text);
     }
+
+    public float asFloat() {
+        return Float.parseFloat(text);
+    }
 }
