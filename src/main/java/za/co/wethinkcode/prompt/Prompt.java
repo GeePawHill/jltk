@@ -82,6 +82,10 @@ public class Prompt {
         return asReply().asInteger();
     }
 
+    public float asFloat() {
+        return asReply().asFloat();
+    }
+
     public double asDouble() {
         return asReply().asDouble();
     }
@@ -113,4 +117,5 @@ public class Prompt {
         prompt.run();
         return prompt.asInteger();
     }
+
 }

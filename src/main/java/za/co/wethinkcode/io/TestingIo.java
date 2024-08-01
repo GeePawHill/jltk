@@ -79,6 +79,11 @@ public class TestingIo implements Io {
     }
 
     @Override
+    public float anyFloat(String text) {
+        return console.anyFloat(text);
+    }
+
+    @Override
     public BigDecimal anyDecimal(String text) {
         return console.anyDecimal(text);
     }

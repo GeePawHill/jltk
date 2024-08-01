@@ -89,6 +89,13 @@ public class StandardIo implements Io {
     }
 
     @Override
+    public float anyFloat(String text) {
+        Prompt prompt = prompt(text, new FloatChecker());
+        prompt.run();
+        return prompt.asFloat();
+    }
+
+    @Override
     public BigDecimal anyDecimal(String text) {
         Prompt prompt = prompt(text, new DecimalChecker());
         prompt.run();

@@ -60,6 +60,14 @@ public interface Io {
     double anyDouble(String text);
 
     /**
+     * Offer the user the prompt text, and return any valid float.
+     *
+     * @param text The text given to the user.
+     * @return The double entered by the user.
+     */
+    float anyFloat(String text);
+
+    /**
      * Offer the user the prompt text, and return any valid decimal value.
      *
      * @param text The text given to the user.
