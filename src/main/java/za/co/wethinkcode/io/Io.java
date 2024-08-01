@@ -17,6 +17,12 @@ public interface Io {
 
     Io print(String s);
 
+    Io errorln(String s);
+
+    Io errorln();
+
+    Io error(String s);
+
     /**
      * Advanced method to make a raw prompt, based in this instance of the Io class, that uses
      * the given text for its prompt, and applies the given Checkers to decide

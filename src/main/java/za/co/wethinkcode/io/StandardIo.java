@@ -10,10 +10,16 @@ public class StandardIo implements Io {
 
     private final InputStream in;
     private final PrintStream out;
+    private final PrintStream err;
 
-    public StandardIo(InputStream in, PrintStream out) {
+    public StandardIo(InputStream in, PrintStream out, PrintStream err){
         this.in = in;
         this.out = out;
+        this.err = err;        
+    }
+
+    public StandardIo(InputStream in, PrintStream out) {
+        this(in, out, System.err);
     }
 
     public StandardIo() {
@@ -35,6 +41,24 @@ public class StandardIo implements Io {
     @Override
     public Io print(String s) {
         out.print(s);
+        return this;
+    }
+
+    @Override
+    public Io errorln(String s) {
+        err.println(s);
+        return this;
+    }
+
+    @Override
+    public Io errorln() {
+        err.println();
+        return this;
+    }
+
+    @Override
+    public Io error(String s) {
+        err.print(s);
         return this;
     }
 

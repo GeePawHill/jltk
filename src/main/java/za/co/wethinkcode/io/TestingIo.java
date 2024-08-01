@@ -10,13 +10,15 @@ import java.util.*;
 public class TestingIo implements Io {
 
     private Script script = new Script();
+    private Script errScript = new Script();
     private final StandardIo console;
 
 
     public TestingIo() {
         console = new StandardIo(
-                new ScriptInputStream(script),
-                new PrintStream(new ScriptOutputStream(script))
+            new ScriptInputStream( script ),
+            new PrintStream( new ScriptOutputStream(script)),
+            new PrintStream( new ScriptOutputStream(errScript))
         );
     }
 
@@ -35,6 +37,24 @@ public class TestingIo implements Io {
     @Override
     public Io print(String s) {
         console.print(s);
+        return this;
+    }
+
+    @Override
+    public Io errorln(String s) {
+        console.errorln(s);
+        return this;
+    }
+
+    @Override
+    public Io errorln() {
+        console.errorln();
+        return this;
+    }
+
+    @Override
+    public Io error(String s) {
+        console.error(s);
         return this;
     }
 
